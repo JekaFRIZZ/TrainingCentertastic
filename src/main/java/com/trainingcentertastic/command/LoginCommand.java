@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.User;
 import com.trainingcentertastic.exception.ServiceException;
@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Optional;
 
 public class LoginCommand implements Command{
 
     public static final String INVALID_INPUT = "Invalid username or password";
     public static final String MAIN_PAGE = "/controller?command=mainPage";
+    public static final String PAGE = "index.jsp";
     private final UserService service;
 
     public LoginCommand(UserService service) {
@@ -42,7 +42,7 @@ public class LoginCommand implements Command{
             return CommandResult.forward(MAIN_PAGE);
         }
         request.getSession().setAttribute("errorMessage", INVALID_INPUT);
-        return CommandResult.redirect("index.jsp");
+        return CommandResult.redirect(PAGE);
 
 
     }

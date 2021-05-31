@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Homework;
 import com.trainingcentertastic.exception.DaoException;
@@ -13,12 +13,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class TaskViewerCommand implements Command {
+public class HomeworkCommand implements Command {
 
+    public static final String PAGE = "WEB-INF/view/homework.jsp";
     private final HomeworkService homeworkService;
     private final TaskService taskService;
 
-    public TaskViewerCommand(HomeworkService homeworkService, TaskService taskService) {
+    public HomeworkCommand(HomeworkService homeworkService, TaskService taskService) {
         this.homeworkService = homeworkService;
         this.taskService = taskService;
     }
@@ -29,22 +30,29 @@ public class TaskViewerCommand implements Command {
 
         String username = request.getParameter("username");
         String nameCourse = request.getParameter("nameCourse");
-        //refactor
-        if(request.getParameter("taskId") != null && request.getParameter("mark") != null) {
+        if(username == null || nameCourse == null) {
+            username = (String) session.getAttribute("username");
+            nameCourse = (String) session.getAttribute("nameCourse");
+        }
+
+        if(request.getParameter("mark") != null) {
             Long id = Long.parseLong(request.getParameter("taskId"));
             int mark = Integer.parseInt(request.getParameter("mark"));
             homeworkService.updateMark(id, username, mark);
         }
         if(request.getParameter("review") != null) {
+            Long id = Long.parseLong(request.getParameter("taskId"));
             String review = request.getParameter("review");
+            homeworkService.updateReview(id, username, review);
         }
-
 
         List<Homework> homeworks = homeworkService.getAllHomeworksStudentByUsername(username, nameCourse);
 
         session.setAttribute("homeworks", homeworks);
+        session.setAttribute("username", username);
+        session.setAttribute("nameCourse", nameCourse);
 
-        return CommandResult.forward("WEB-INF/view/homework.jsp");
+        return CommandResult.forward(PAGE);
     }
 
 

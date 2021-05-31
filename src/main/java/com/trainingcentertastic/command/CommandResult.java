@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 public class CommandResult {
     private final String page;

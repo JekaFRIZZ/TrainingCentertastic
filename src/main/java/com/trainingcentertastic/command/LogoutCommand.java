@@ -1,6 +1,5 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
-import com.mysql.cj.exceptions.StreamingNotifiable;
 import com.trainingcentertastic.exception.ServiceException;
 
 import javax.servlet.ServletException;
@@ -8,15 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ShowPageCommand implements Command {
-    private final String page;
+public class LogoutCommand implements Command{
 
-    public ShowPageCommand(String page) {
-        this.page = page;
-    }
+    public static final String PAGE = "index.jsp";
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException {
-        return CommandResult.forward(page);
+        request.getSession().invalidate();
+        return CommandResult.forward(PAGE);
     }
 }

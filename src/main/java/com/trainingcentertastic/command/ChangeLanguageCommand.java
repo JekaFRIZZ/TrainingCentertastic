@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.exception.ServiceException;
 

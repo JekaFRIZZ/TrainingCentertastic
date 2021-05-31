@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Course;
 import com.trainingcentertastic.entity.Student;
@@ -14,8 +14,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CourseCommand implements Command {
+    public static final String PAGE = "WEB-INF/view/course.jsp";
     private final String SPLITTER = "\\.";
 
     private final CourseService courseService;
@@ -31,15 +33,23 @@ public class CourseCommand implements Command {
         HttpSession session = request.getSession();
 
         String name = request.getParameter("nameCourse");
+        if(name == null) {
+            name = (String) session.getAttribute("nameCourse");
+        }
 
-        Course course = courseService.getCourseByName(name).get();
-        List<String> requirements = parseRequirement(course.getRequirement());
+        Optional<Course> courseOptional = courseService.getCourseByName(name);
 
+        Course course = courseOptional.get();
+        String oneStringRequirements = course.getRequirement();
+
+        List<String> requirements = parseRequirement(oneStringRequirements);
+        List<Student> students = studentService.getStudentsByCourseName(name);
 
         session.setAttribute("nameCourse", course.getName());
         session.setAttribute("requirements", requirements);
+        session.setAttribute("students", students);
 
-        return CommandResult.forward("WEB-INF/view/course.jsp");
+        return CommandResult.forward(PAGE);
     }
 
     private List<String> parseRequirement(String requirement) {

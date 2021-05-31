@@ -1,4 +1,4 @@
-package com.trainingcentertastic.сommand;
+package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Student;
 import com.trainingcentertastic.exception.DaoException;
@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 public class FindStudentCommand implements Command{
 
+    public static final String PAGE = "WEB-INF/view/students.jsp";
     private final StudentService service;
 
     public FindStudentCommand(StudentService service) {
@@ -28,16 +30,21 @@ public class FindStudentCommand implements Command{
             return CommandResult.forward("WEB-INF/view/students.jsp");
         }
 
-        Student student = service.getStudentById(Long.parseLong(idString)).get();
 
-        Long id = student.getId();
-        String username = student.getUsername();
-        String review = student.getReview();
+        Optional<Student> student = service.getStudentById(Long.parseLong(idString));
 
-        session.setAttribute("id", id);
-        session.setAttribute("username", username);
-        session.setAttribute("review", review);
+        if(student.isPresent()) {
+            Long id = student.get().getId();
+            String username = student.get().getUsername();
+            String review = student.get().getReview();
+            request.setAttribute("id", id);
+            request.setAttribute("username", username);
+            request.setAttribute("review", review);
+        }
+        else {
+            request.setAttribute("notExist", "Student isn`t exist");
+        }
 
-        return CommandResult.forward("WEB-INF/view/students.jsp");
+        return CommandResult.forward(PAGE);
     }
 }
