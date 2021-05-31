@@ -1,5 +1,7 @@
 package com.trainingcentertastic.connetion;
 
+import org.apache.log4j.Logger;
+
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -10,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class ConnectionPool {
+
     private BlockingQueue<ProxyConnection> availableConnections;
     private Set<ProxyConnection> connectionsInUse;
     private int poolSize;
@@ -38,8 +41,7 @@ public class ConnectionPool {
                     INSTANCE.getAndSet(connectionPool);
                 }
             } catch (ConnectionException exception) {
-                //change on logger
-                throw new ConnectionException(exception);
+                new ConnectionException(exception.getMessage(), exception);
             } finally {
                 INSTANCE_LOCK.unlock();
             }

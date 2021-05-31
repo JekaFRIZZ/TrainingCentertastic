@@ -10,7 +10,7 @@ import java.util.List;
 public class ConnectionPoolFactory {
 
     private static Driver driver;
-    private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/training_centertastic_db?useUnicode=true&serverTimezone=UTC";
+    private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/training_centertastic_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PASSWORD = "admin";
     private static final int POOL_SIZE = 6;
