@@ -47,4 +47,20 @@ public class CourseService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public List<Course> getCoursesByUsername(String username) throws ServiceException {
+        try {
+            return courseDao.getStudentCoursesByUsername(username);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public void updateRequirement(String requirement,String name) throws ServiceException {
+        try {
+            courseDao.updateRequirement(requirement, name);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

@@ -39,4 +39,28 @@ public class StudentService {
             throw new ServiceException(e.getMessage(),e);
         }
     }
+
+    public Optional<Student> getStudentByUsername(String username) throws ServiceException {
+        try {
+            return studentDao.getByUsername(username);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(),e);
+        }
+    }
+
+    public List<Student> getStudentsByCourseName(String courseName) throws ServiceException {
+        try {
+            return studentDao.getByCourseName(courseName);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(),e);
+        }
+    }
+
+    public List<Student> getLimit(int offset, int noOfRecords) throws ServiceException {
+        try {
+            return studentDao.getLimit(offset, noOfRecords);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(),e);
+        }
+    }
 }
