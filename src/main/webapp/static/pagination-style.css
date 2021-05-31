@@ -1,0 +1,8 @@
+.pagination-tr {
+    background-color: white;
+}
+
+.pagination-table {
+    display: flex;
+    justify-content: center;
+}
