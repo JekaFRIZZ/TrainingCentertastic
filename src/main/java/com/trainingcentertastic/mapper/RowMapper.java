@@ -8,11 +8,14 @@ import java.sql.SQLException;
 public interface RowMapper<T extends Identifiable> {
 
     String USER = "user";
+    String STUDENT = "student";
 
     static RowMapper<? extends Identifiable> create(String table) {
         switch (table) {
             case USER:
                 return new UserRowMapper();
+            case STUDENT:
+                return new StudentRowMapper();
             default:
                 throw new IllegalArgumentException("Unknown table" + table);
         }
