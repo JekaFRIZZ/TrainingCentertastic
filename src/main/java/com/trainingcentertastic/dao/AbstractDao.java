@@ -2,6 +2,7 @@ package com.trainingcentertastic.dao;
 
 import com.trainingcentertastic.connetion.ProxyConnection;
 import com.trainingcentertastic.entity.Identifiable;
+import com.trainingcentertastic.entity.Student;
 import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.mapper.RowMapper;
 
@@ -46,7 +47,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     public List<T> getAll() throws DaoException {
         String table = getTableName();
         RowMapper<T> mapper = (RowMapper<T>) RowMapper.create(table);
-        return executeQuery(SELECT_FROM + table,mapper);
+        return executeQuery(SELECT_FROM + table, mapper);
     }
 
     protected Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) throws DaoException {
@@ -80,7 +81,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     protected abstract void create(T item) throws DaoException;
 
-    protected abstract Optional<T> update(T item) throws DaoException;
+    protected abstract void update(T item) throws DaoException;
 
     protected abstract String getTableName();
 }

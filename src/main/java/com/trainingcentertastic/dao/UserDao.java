@@ -35,13 +35,12 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     }
 
     @Override
-    protected Optional<User> update(User item) throws DaoException {
+    protected void update(User item) throws DaoException {
         Optional<User> userUpdate = getById(item.getId());
         if(!userUpdate.isPresent()) {
             throw new DaoException("User " + item.getId() + " not found");
         }
         executeUpdate(UPDATE, item.getUsername(), item.getPassword(), item.getRole().toString(), item.getId());
-        return userUpdate;
     }
 
 
@@ -66,7 +65,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
         executeUpdate(REMOVE_BY_ID, id);
     }
 
-    public List<User> getUserByRole(Role role) throws DaoException {
+    public List<User> getUsersByRole(Role role) throws DaoException {
         return executeQuery(FIND_BY_ROLE, new UserRowMapper(), role.toString());
     }
 }

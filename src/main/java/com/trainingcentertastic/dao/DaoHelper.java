@@ -21,9 +21,20 @@ public class DaoHelper implements AutoCloseable{
         return new StudentDao(connection);
     }
 
+
     public CourseDao createCourseDao() {
         return new CourseDao(connection);
     }
+
+    public TaskDao createTaskDao() {
+        return new TaskDao(connection);
+    }
+
+    public HomeworkDao createHomeworkDao() {
+        return new HomeworkDao(connection);
+    }
+
+    public CourseUsersDao createCourseUsersDao() {return new CourseUsersDao(connection);}
 
     @Override
     public void close() throws Exception {

@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <link rel="stylesheet" href="static/header-index-style.css">
 </head>
 <body class="body-header-index">
 
