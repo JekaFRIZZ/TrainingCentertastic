@@ -9,6 +9,9 @@ public class Course implements Identifiable {
     private String name;
     private String requirement;
 
+    public Course() {
+    }
+
     public Course(Long id, String name, String requirement) {
         this.id = id;
         this.name = name;
