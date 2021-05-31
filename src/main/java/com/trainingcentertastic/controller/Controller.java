@@ -3,9 +3,9 @@ package com.trainingcentertastic.controller;
 import com.trainingcentertastic.connetion.ConnectionException;
 import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.exception.ServiceException;
-import com.trainingcentertastic.сommand.Command;
-import com.trainingcentertastic.сommand.CommandFactory;
-import com.trainingcentertastic.сommand.CommandResult;
+import com.trainingcentertastic.command.Command;
+import com.trainingcentertastic.command.CommandFactory;
+import com.trainingcentertastic.command.CommandResult;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
