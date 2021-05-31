@@ -25,3 +25,29 @@ CREATE TABLE course (
                         requirement TEXT,
                         PRIMARY KEY (id)
 );
+
+create table course_users (
+                              id BIGINT NOT NULL AUTO_INCREMENT,
+                              course_name varchar(50),
+                              username varchar(50),
+                              primary key(id)
+);
+
+create table task (
+                      id BIGINT NOT NULL AUTO_INCREMENT,
+                      task_name varchar(50),
+                      course_name varchar(50),
+                      assignment TEXT,
+                      PRIMARY KEY (id)
+);
+
+CREATE TABLE homework (
+                          id BIGINT NOT NULL AUTO_INCREMENT,
+                          task_name varchar(50),
+                          username varchar(50),
+                          course_name varchar(50),
+                          link varchar(50),
+                          mark int constraint check(mark between 0 and 10),
+                          review TEXT,
+                          primary key(id)
+);
