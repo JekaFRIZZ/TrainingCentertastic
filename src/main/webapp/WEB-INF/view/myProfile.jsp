@@ -1,17 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
-<fmt:message key="h1.welcome" var="welcome"/>
-<fmt:message key="h5.text" var="text"/>
 <fmt:message key="a.myProfile" var="heading"/>
+<fmt:message key="button.go" var="go"/>
 <html>
 <head>
     <title>${heading}</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/courses-style.css">
+    <link rel="stylesheet" href="static/language-all-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
+    <main>
+        <nav class="container">
+                <c:if test="${sessionScope.role == 'STUDENT'}">
+                    <input type="hidden" name="command" value="myProfileStudent"/>
+
+                    <c:forEach  var="course" items="${courses}">
+                        <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
+                            <nav class="block">
+                                <c:set var="nameCourse" value="${course.name}"/>
+                                <input type="hidden" name="nameCourse" value="${nameCourse}"/>
+                                <input type="hidden" name="command" value="studyCourse"/>
+
+                                <p class="title">${course.name}</p>
+                                <img src="" alt="image">
+                                <button class="button" type="submit">${go}</button>
+                            </nav>
+                        </form>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${sessionScope.role == 'TEACHER'}">
+                    <c:forEach  var="course" items="${courses}">
+                        <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
+                            <nav class="block">
+                                <input type="hidden" name="command" value="subjectTaught">
+                                <c:set var="nameCourse" value="${course.name}"/>
+                                <input type="hidden" name="nameCourse" value="${nameCourse}"/>
+
+                                <p class="title">${course.name}</p>
+                                <img src="" alt="image">
+                                <button class="button" type="submit">${go}</button>
+                            </nav>
+                        </form>
+                    </c:forEach>
+                </c:if>
+        </nav>
+
+    </main>
 </body>
 </html>

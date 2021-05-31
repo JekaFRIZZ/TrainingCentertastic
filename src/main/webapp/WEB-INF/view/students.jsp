@@ -11,6 +11,7 @@
 <head>
     <title>${heading}</title>
     <link rel="stylesheet" href="static/students-style.css"/>
+    <link rel="stylesheet" href="static/language-all-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
@@ -28,13 +29,18 @@
             </tr>
         </c:forEach>
     </table>
+    <jsp:include page="fragments/pagination.jsp"/>
+
     <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="findStudent"/>
 
         <label for="idStudent"><b>${findStudent}</b></label>
-        <input type="text" placeholder="${enterId}" name="idStudent" required/><br/>
+        <input type="number" placeholder="${enterId}" name="idStudent" required/><br/>
 
         <button type="submit">${find}</button>
+        <c:if test="${notExist != null}">
+            <br/>${notExist}
+        </c:if>
 
     </form>
     <c:if test="${review != null}">
@@ -51,5 +57,6 @@
             </tr>
         </table>
     </c:if>
+
 </body>
 </html>

@@ -1,16 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Женя
-  Date: 25.05.2021
-  Time: 21:43
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.local}"/>
+<fmt:setBundle basename="message"/>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>TrainingCentertastic</title>
+    <link rel="stylesheet" href="static/language-all-style.css">
+</head>
+<body>
+    <jsp:include page="fragments/header.jsp"/>
+    <main>
+        Задание : ${sessionScope.assignment}
+        <form action="${pageContext.request.contextPath}/controller?command=changeLink" method="post">
+            <input type="hidden" name="taskName" value="${taskName}">
+            <input type="text" name="link" required>
+            <button type="submit"><fmt:message key="button.send"/></button>
+        </form>
+    </main>
+</body>
 </html>

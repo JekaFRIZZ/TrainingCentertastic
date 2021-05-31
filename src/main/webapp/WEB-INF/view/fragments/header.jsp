@@ -16,19 +16,20 @@
 </head>
 <body class="body-header">
     <div class="topNav">
-
         <a href="/controller?command=logout">${exit}</a>
-        <a href="/controller?command=courses">${courses}</a>
+        <c:if test="${sessionScope.role != 'TEACHER'}">
+            <a href="/controller?command=courses">${courses}</a>
+        </c:if>
         <a href="/controller?command=mainPage">${main}</a>
-        <a href="/controller?command=myProfile">${myProfile}</a>
+        <c:if test="${sessionScope.role != 'ADMIN'}">
+            <a href="/controller?command=myProfileStudent">${myProfile}</a>
+        </c:if>
         <c:if test="${sessionScope.role == 'ADMIN'}">
             <a href="/controller?command=students">${students}</a>
-        </c:if>
-        <c:if test="${sessionScope.role == 'TEACHER'}">
-            <a href="/controller?command=myCourses">${myCourses}</a>
+            <a href="/controller?command=teachers">Teachers</a>
         </c:if>
         <div class="changeLanguage">
-            <jsp:include page="header-index.jsp"/>
+            <jsp:include page="language.jsp"/>
         </div>
     </div>
 </body>

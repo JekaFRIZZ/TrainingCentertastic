@@ -10,6 +10,7 @@
 <head>
     <title>${heading}</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/language-all-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>

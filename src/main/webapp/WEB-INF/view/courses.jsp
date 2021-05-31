@@ -4,11 +4,13 @@
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
 <fmt:message key="a.courses" var="heading"/>
+<fmt:message key="button.go" var="go"/>
 
 <html>
 <head>
     <title>${heading}</title>
     <link rel="stylesheet" href="static/courses-style.css">
+    <link rel="stylesheet" href="static/language-all-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
@@ -24,28 +26,13 @@
 
                         <p class="title">${course.name}</p>
                         <img src="" alt="image">
-                        <button class="button" type="submit">Перейти</button>
+                        <button class="button" type="submit">${go}</button>
                     </nav>
                 </form>
             </c:forEach>
         </nav>
 
-        <table cellpadding="5" cellspacing="5">
-            <tr>
-                <c:forEach begin="1" end="${noOfPages}" var="i">
-                    <c:choose>
-                        <c:when test="${currentPage eq i}">
-                            <td>${i}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td><a href="/controller?command=courses&page=${i}">${i}</a></td>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </tr>
-        </table>
+        <jsp:include page="fragments/pagination.jsp"/>
     </main>
-
-
 </body>
 </html>
