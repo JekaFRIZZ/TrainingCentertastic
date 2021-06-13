@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/tld/timeTag.tld" prefix="ct"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
@@ -11,10 +12,14 @@
     <title>${heading}</title>
     <link rel="stylesheet" href="static/style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
-    <h1>${welcome} ${name}</h1>
-    <h5>${text}</h5>
+    <main>
+        <h1>${welcome} ${sessionScope.username}</h1>
+        <h3><ct:time/></h3>
+        <img src="<c:url value="/image/mainPicture.jpg"/>" width="100%" height="100%"/>
+    </main>
 </body>
 </html>

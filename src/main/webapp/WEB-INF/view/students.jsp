@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
-<fmt:message key="placeholder.enterId" var="enterId"/>
+<fmt:message key="placeholder.enterUsername" var="enterUsername"/>
 <fmt:message key="button.find" var="find"/>
 <fmt:message key="lable.findStudent" var="findStudent"/>
 <fmt:message key="title.students" var="heading"/>
@@ -12,51 +12,52 @@
     <title>${heading}</title>
     <link rel="stylesheet" href="static/students-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
+    <main>
+        <c:if test="${requestScope.students != null}">
+            <table class="table-all">
+                <tr>
+                    <th><fmt:message key="th.username"/></th>
+                </tr>
 
-    <table class="table-all">
-        <tr>
-            <th><fmt:message key="th.id"/></th>
-            <th><fmt:message key="th.username"/></th>
-        </tr>
-
-        <c:forEach var="student" items="${students}">
-            <tr>
-                <td>${student.id}</td>
-                <td>${student.username}</td>
-            </tr>
-        </c:forEach>
-    </table>
-    <jsp:include page="fragments/pagination.jsp"/>
-
-    <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="findStudent"/>
-
-        <label for="idStudent"><b>${findStudent}</b></label>
-        <input type="number" placeholder="${enterId}" name="idStudent" required/><br/>
-
-        <button type="submit">${find}</button>
-        <c:if test="${notExist != null}">
-            <br/>${notExist}
+                <c:forEach var="student" items="${students}">
+                    <tr>
+                        <td>${student.username}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <jsp:include page="fragments/pagination.jsp"/>
         </c:if>
 
-    </form>
-    <c:if test="${review != null}">
-        <table class="table-one">
-            <tr>
-                <th><fmt:message key="th.id"/></th>
-                <th><fmt:message key="th.username"/></th>
-                <th><fmt:message key="th.review"/></th>
-            </tr>
-            <tr>
-                <td>${id}</td>
-                <td>${username}</td>
-                <td>${review}</td>
-            </tr>
-        </table>
-    </c:if>
+        <nav class="search">
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="findStudent"/>
 
+                <label for="nameStudent"><b>${findStudent}</b></label>
+                <input type="text" placeholder="${enterUsername}" name="nameStudent" required/><br/>
+
+                <button type="submit">${find}</button>
+                <c:if test="${notExist != null}">
+                    <br/>${notExist}
+                </c:if>
+
+            </form>
+            <c:if test="${review != null}">
+                <table class="table-one">
+                    <tr>
+                        <th><fmt:message key="th.username"/></th>
+                        <th><fmt:message key="th.review"/></th>
+                    </tr>
+                    <tr>
+                        <td>${username}</td>
+                        <td>${review}</td>
+                    </tr>
+                </table>
+            </c:if>
+        </nav>
+    </main>
 </body>
 </html>

@@ -8,6 +8,7 @@
     <title>TrainingCentertastic</title>
     <link rel="stylesheet" href="static/studyCourse-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>

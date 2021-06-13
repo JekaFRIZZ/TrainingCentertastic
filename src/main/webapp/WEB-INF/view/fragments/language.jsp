@@ -14,6 +14,7 @@
             <input type="hidden" name="command" value="changeLanguage"/>
             <input type="hidden" name="currentPage" value="${param.get("command")}" />
             <input type="hidden" name="page" value="${param.get("page")}"/>
+            <input type="hidden" name="nameCourse" value="${nameCourse}">
         </form>
 
         <form class="change-lang" action="/controller"
@@ -23,6 +24,7 @@
             <input type="hidden" name="command" value="changeLanguage"/>
             <input type="hidden" name="currentPage" value="${param.get("command")}"/>
             <input type="hidden" name="page" value="${param.get("page")}"/>
+            <input type="hidden" name="nameCourse" value="${nameCourse}">
         </form>
 
         <form class="change-lang" action="/controller"
@@ -32,6 +34,7 @@
             <input type="hidden" name="command" value="changeLanguage"/>
             <input type="hidden" name="currentPage" value="${param.get("command")}"/>
             <input type="hidden" name="page" value="${param.get("page")}"/>
+            <input type="hidden" name="nameCourse" value="${nameCourse}">
         </form>
     </div>
 </body>

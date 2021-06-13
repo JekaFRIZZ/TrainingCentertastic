@@ -10,6 +10,7 @@
     <title>${heading}</title>
     <link rel="stylesheet" href="static/courses-style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
@@ -26,7 +27,6 @@
                                 <input type="hidden" name="command" value="studyCourse"/>
 
                                 <p class="title">${course.name}</p>
-                                <img src="" alt="image">
                                 <button class="button" type="submit">${go}</button>
                             </nav>
                         </form>
@@ -41,7 +41,6 @@
                                 <input type="hidden" name="nameCourse" value="${nameCourse}"/>
 
                                 <p class="title">${course.name}</p>
-                                <img src="" alt="image">
                                 <button class="button" type="submit">${go}</button>
                             </nav>
                         </form>
@@ -49,6 +48,7 @@
                 </c:if>
         </nav>
 
+        <jsp:include page="fragments/pagination.jsp"/>
     </main>
 </body>
 </html>

@@ -14,11 +14,12 @@
         <meta charset="UTF-8"/>
         <title>TrainingCentertastic</title>
         <link rel="stylesheet" href="static/index-style.css"/>
+        <link rel="stylesheet" href="static/language-index-style.css">
     </head>
     <body class="login">
 
         <form action="${pageContext.request.contextPath}/controller" method="post">
-            <dav class="registration">
+            <nav class="vertical">
                 <input type="hidden" name="command" value="login"/>
 
                 <label for="username"><b>${username}</b></label>
@@ -26,14 +27,16 @@
 
                 <label for="password"><b>${password}</b></label>
                 <input type="password" placeholder="${enterPassword}" name="password" required/><br/>
+
                 <c:if test="${errorMessage != null}">
                     <h5 class="incorrect-input">
-                        ${error}
+                        <br/><br/>${error}
                     </h5>
                 </c:if>
+
                 <button type="submit">${login}</button>
-            </dav>
+            </nav>
         </form>
-        <jsp:include page="WEB-INF/view/fragments/header-index.jsp"/>
+        <jsp:include page="WEB-INF/view/fragments/language.jsp"/>
     </body>
 </html>

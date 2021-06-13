@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="static/header-style.css">
 </head>
 <body class="body-header">
-    <div class="topNav">
+
+    <nav class="topNav">
         <a href="/controller?command=logout">${exit}</a>
         <c:if test="${sessionScope.role != 'TEACHER'}">
             <a href="/controller?command=courses">${courses}</a>
@@ -31,6 +32,6 @@
         <div class="changeLanguage">
             <jsp:include page="language.jsp"/>
         </div>
-    </div>
+    </nav>
 </body>
 </html>

@@ -11,17 +11,16 @@
     <title>${heading}</title>
     <link rel="stylesheet" href="static/courses-style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
-
     <main>
         <nav class="container">
             <c:forEach  var="course" items="${courses}">
                 <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
                     <nav class="block">
-                        <c:set var="nameCourse" value="${course.name}"/>
-                        <input type="hidden" name="nameCourse" value="${nameCourse}"/>
+                        <input type="hidden" name="nameCourse" value="${course.name}"/>
                         <input type="hidden" name="command" value="course"/>
 
                         <p class="title">${course.name}</p>

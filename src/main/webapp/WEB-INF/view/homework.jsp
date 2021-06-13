@@ -14,6 +14,7 @@
     <title>TrainingCentertastic</title>
     <link rel="stylesheet" href="static/subjectTaught-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
+    <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -26,7 +27,7 @@
             <td>${mark}</td>
             <td>${review}</td>
         </tr>
-        <c:forEach var="homework" items="${sessionScope.homeworks}">
+        <c:forEach var="homework" items="${requestScope.homeworks}">
             <tr>
                 <td>${homework.username}</td>
                 <td>${homework.courseName}</td>

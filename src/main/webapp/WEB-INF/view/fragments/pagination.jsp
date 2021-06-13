@@ -15,7 +15,7 @@
                         <td>${i}</td>
                     </c:when>
                     <c:otherwise>
-                        <td><a href="/controller?command=${sessionScope.command}&page=${i}">${i}</a></td>
+                        <td><a href="/controller?command=${requestScope.command}&page=${i}">${i}</a></td>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
