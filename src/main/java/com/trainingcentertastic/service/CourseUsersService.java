@@ -4,12 +4,13 @@ import com.trainingcentertastic.dao.CourseUsersDao;
 import com.trainingcentertastic.entity.CourseUsers;
 import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.exception.ServiceException;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CourseUsersService {
-
+    private static final Logger LOGGER = Logger.getLogger(CourseUsersService.class);
     private final CourseUsersDao courseUsersDao;
 
     public CourseUsersService(CourseUsersDao courseUsersDao) {
@@ -20,6 +21,7 @@ public class CourseUsersService {
         try {
             return courseUsersDao.getByNameCourseByUsername(nameCourse, username);
         } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -28,6 +30,7 @@ public class CourseUsersService {
         try {
             courseUsersDao.createSubmit(courseName, username);
         } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -36,14 +39,7 @@ public class CourseUsersService {
         try {
             return courseUsersDao.getAllTeachers();
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    public List<CourseUsers> getLimitByTeacher(int offset, int noOfRecords) throws ServiceException {
-        try {
-            return courseUsersDao.getLimitByTeacher(offset, noOfRecords);
-        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
