@@ -9,7 +9,7 @@ public class HomeworkMapper implements RowMapper<Homework> {
     @Override
     public Homework map(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong(Homework.ID);
-        String taskName = resultSet.getString(Homework.COURSE_NAME);
+        String taskName = resultSet.getString(Homework.TASK_NAME);
         String username = resultSet.getString(Homework.USERNAME);
         String courseName = resultSet.getString(Homework.COURSE_NAME);
         String link = resultSet.getString(Homework.LINK);
