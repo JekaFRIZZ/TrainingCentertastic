@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class ConnectionPool {
+    private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
     private BlockingQueue<ProxyConnection> availableConnections;
     private Set<ProxyConnection> connectionsInUse;
@@ -40,8 +41,6 @@ public class ConnectionPool {
                     ConnectionPool connectionPool = factory.createPool();
                     INSTANCE.getAndSet(connectionPool);
                 }
-            } catch (ConnectionException exception) {
-                new ConnectionException(exception.getMessage(), exception);
             } finally {
                 INSTANCE_LOCK.unlock();
             }
@@ -49,7 +48,7 @@ public class ConnectionPool {
         return INSTANCE.get();
     }
 
-    public ProxyConnection getConnection() throws ConnectionException {
+    public ProxyConnection getConnection() {
         ProxyConnection connection = null;
         CONNECTIONS_LOCK.lock();
         try {
@@ -60,6 +59,7 @@ public class ConnectionPool {
         } finally {
             CONNECTIONS_LOCK.unlock();
         }
+        LOGGER.info("Connection has been taken");
         return connection;
     }
 
@@ -73,6 +73,7 @@ public class ConnectionPool {
         } finally {
             CONNECTIONS_LOCK.unlock();
         }
+        LOGGER.info("Connection pool has been return");
     }
 
     public void closeAllConnections() throws ConnectionException {
