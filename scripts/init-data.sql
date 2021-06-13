@@ -34,7 +34,7 @@ INSERT INTO course_users
 (course_name, username)
 VALUES
 ('Java', 'student1'),
-('Java', 'stuent2'),
+('Java', 'student2'),
 ('Python', 'student1'),
 ('Python', 'student2'),
 ('Kotlin', 'student2'),
@@ -65,12 +65,12 @@ INSERT INTO homework
 (id, task_name, course_name, username, link, mark)
 VALUES
 (1, 'First task', 'Java', 'student1', 'https://github.com/student1', '0'),
-(2, 'First task', 'Java', 'student2', 'https://github.com/student2', '8'),
+(2, 'First task', 'Java', 'student2', 'https://github.com/student2', '0'),
 (3, 'Second task', 'Java', 'student1', 'https://github.com/student1', '0'),
 (4, 'First task', 'Python', 'student1', 'https://github.com/student1', '0'),
 (5, 'First task', 'Python', 'student2', 'https://github.com/student2', '0'),
-(6, 'First task', 'Kotlin', 'student2', 'https://github.com/student2', '9'),
+(6, 'First task', 'Kotlin', 'student2', 'https://github.com/student2', '0'),
 (7, 'First task', 'Kotlin', 'student1', 'https://github.com/student1', '0'),
-(8, 'Second task', 'Kotlin', 'student1', 'https://github.com/student1', '5'),
+(8, 'Second task', 'Kotlin', 'student1', 'https://github.com/student1', '0'),
 (9, 'First task', 'C', 'student2', 'https://github.com/student2', '0'),
 (10, 'First task', 'JavaScript', 'student1', 'https://github.com/student1', '0');

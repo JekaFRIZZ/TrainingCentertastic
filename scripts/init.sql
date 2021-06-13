@@ -10,15 +10,6 @@ CREATE TABLE user (
                       PRIMARY KEY (id)
 );
 
-CREATE TABLE student (
-                         user_id BIGINT NOT NULL AUTO_INCREMENT,
-                         username varchar(50),
-                         review TEXT,
-                         PRIMARY KEY (user_id),
-                         foreign key (user_id) references user(id),
-                         foreign key (username) references user(username)
-);
-
 CREATE TABLE course (
                         id BIGINT NOT NULL AUTO_INCREMENT,
                         name varchar(50),
@@ -43,11 +34,11 @@ create table task (
 
 CREATE TABLE homework (
                           id BIGINT NOT NULL AUTO_INCREMENT,
-                          task_name varchar(50),
-                          username varchar(50),
-                          course_name varchar(50),
-                          link varchar(50),
-                          mark int constraint check(mark between 0 and 10),
+                          task_name VARCHAR(50),
+                          username VARCHAR(50),
+                          course_name VARCHAR(50),
+                          link VARCHAR(50) DEFAULT '',
+                          mark INT CONSTRAINT CHECK(mark BETWEEN 0 AND 10) DEFAULT 0,
                           review TEXT,
-                          primary key(id)
+                          PRIMARY KEY(id)
 );
