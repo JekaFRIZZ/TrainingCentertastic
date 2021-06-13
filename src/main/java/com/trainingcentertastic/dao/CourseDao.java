@@ -10,8 +10,10 @@ import java.util.Optional;
 
 public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
 
-    public static final String FIND_COURSE_BY_NAME_STUDENT = "SELECT * FROM course WHERE name IN (SELECT course_name FROM course_users WHERE username = ?)";
-    public static final String UPDATE_REQUIREMENT = "UPDATE course SET requirement = ? WHERE name = ?";
+    private static final String FIND_COURSE_BY_NAME_STUDENT = "SELECT * FROM course WHERE name IN (SELECT course_name FROM course_users WHERE username = ?";
+    private static final String UPDATE_REQUIREMENT = "UPDATE course SET requirement = ? WHERE name = ?";
+    private static final String GET_COURSE_BY_USERNAME_LIMIT = "SELECT * FROM course WHERE name IN (SELECT course_name FROM course_users WHERE username = ?) LIMIT ?, ?";
+    private static final String TABLE_NAME = "course";
     private final String GET_ALL = "SELECT * FROM course";
     private final String GET_LIMIT = "SELECT * FROM course LIMIT ?, ?";
     private final String FIND_COURSE_BY_ID = "SELECT * FROM course WHERE id = ?";
@@ -34,7 +36,7 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
 
     @Override
     protected String getTableName() {
-        return null;
+        return TABLE_NAME;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
     }
 
     public List<Course> getAll() throws DaoException {
-        return executeQuery(GET_ALL, new CourseMapper());
+        return super.getAll();
     }
 
     public List<Course> getLimit(int offset, int noOfRecords) throws DaoException {
@@ -65,5 +67,9 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
 
     public void updateRequirement(String requirement, String name) throws DaoException {
         executeUpdate(UPDATE_REQUIREMENT, requirement, name);
+    }
+
+    public List<Course> getLimitByUsername(int offset, int recordsPerPage, String username) throws DaoException {
+        return executeQuery(GET_COURSE_BY_USERNAME_LIMIT, new CourseMapper(), username, offset, recordsPerPage);
     }
 }

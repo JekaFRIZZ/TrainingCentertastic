@@ -2,9 +2,9 @@ package com.trainingcentertastic.dao;
 
 import com.trainingcentertastic.connetion.ProxyConnection;
 import com.trainingcentertastic.entity.Identifiable;
-import com.trainingcentertastic.entity.Student;
 import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.mapper.RowMapper;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
-    public static final String SELECT_FROM = "SELECT * FROM ";
+    private static final Logger LOGGER = Logger.getLogger(AbstractDao.class);
+    private static final String SELECT_FROM = "SELECT * FROM ";
     private final ProxyConnection connection;
 
     protected AbstractDao(ProxyConnection connection) {
@@ -29,7 +30,6 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
                 T entity = mapper.map(resultSet);
                 entities.add(entity);
             }
-
             return entities;
         } catch (SQLException exception) {
             throw new DaoException(exception.getMessage(), exception);
@@ -41,6 +41,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         for(int i = 0; i < params.length; i++) {
             statement.setObject(i + 1, params[i]);
         }
+        LOGGER.debug("Statement " + statement);
         return statement;
     }
 
@@ -65,6 +66,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         try (PreparedStatement statement = createStatement(query, params)) {
             statement.executeUpdate();
         } catch (SQLException e) {
+            LOGGER.debug(this.getClass() + " " + e.getMessage());
             throw new DaoException(e);
         }
     }

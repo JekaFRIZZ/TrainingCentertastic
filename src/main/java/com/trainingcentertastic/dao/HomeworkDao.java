@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> {
 
-    public static final String FIND_HOMEWORK_BY_USERNAME = "SELECT * FROM homework WHERE username = ? AND course_name = ?";
-    public static final String UPDATE_MARK = "UPDATE homework SET mark = ? WHERE id = ? AND username = ?";
-    public static final String UPDATE_REVIEW = "UPDATE homework SET review = ? WHERE id = ? AND username = ?";
-    public static final String UPDATE_LINK = "UPDATE homework SET link = ? WHERE task_name = ? AND username = ?";
+    private static final String FIND_HOMEWORK_BY_USERNAME = "SELECT * FROM homework WHERE username = ? AND course_name = ?";
+    private static final String UPDATE_MARK = "UPDATE homework SET mark = ? WHERE id = ? AND username = ?";
+    private static final String UPDATE_REVIEW = "UPDATE homework SET review = ? WHERE id = ? AND username = ?";
+    private static final String UPDATE_LINK = "UPDATE homework SET link = ? WHERE task_name = ? AND username = ?";
 
     protected HomeworkDao(ProxyConnection connection) {
         super(connection);
@@ -21,17 +21,17 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
 
     @Override
     protected void create(Homework item) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected void update(Homework item) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected String getTableName() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
 
     @Override
     public void removeById(Long id) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     public List<Homework> getByUsername(String username, String nameCourse) throws DaoException {

@@ -9,31 +9,21 @@ import java.sql.SQLException;
 public class DaoHelper implements AutoCloseable{
     private final ProxyConnection connection;
 
-    public DaoHelper(ProxyConnection connection) throws ConnectionException {
+    public DaoHelper(ProxyConnection connection) {
         this.connection = connection;
     }
-
     public UserDao createUserDao() {
         return new UserDao(connection);
     }
-
-    public StudentDao createStudentDao() {
-        return new StudentDao(connection);
-    }
-
-
     public CourseDao createCourseDao() {
         return new CourseDao(connection);
     }
-
     public TaskDao createTaskDao() {
         return new TaskDao(connection);
     }
-
     public HomeworkDao createHomeworkDao() {
         return new HomeworkDao(connection);
     }
-
     public CourseUsersDao createCourseUsersDao() {return new CourseUsersDao(connection);}
 
     @Override

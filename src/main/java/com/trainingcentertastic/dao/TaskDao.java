@@ -10,8 +10,9 @@ import java.util.Optional;
 
 public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
 
-    public static final String FIND_TASKS_BY_COURSE_NAME = "SELECT * FROM task WHERE course_name = ?";
-    public static final String FIND_TASK_BY_TACK_NAME_AND_COURSE_NAME = "SELECT * FROM task WHERE task_name = ? AND  course_name = ?";
+    private static final String FIND_TASKS_BY_COURSE_NAME = "SELECT * FROM task WHERE course_name = ?";
+    private static final String FIND_TASK_BY_TACK_NAME_AND_COURSE_NAME = "SELECT * FROM task WHERE task_name = ? AND  course_name = ?";
+    private static final String TABLE_NAME = "task";
 
     protected TaskDao(ProxyConnection connection) {
         super(connection);
@@ -24,32 +25,32 @@ public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
 
     @Override
     public void save(Task items) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected void create(Task item) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected void update(Task item) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected String getTableName() {
-        return null;
+        return TABLE_NAME;
     }
 
     @Override
     public List<Task> getAll() throws DaoException {
-        return null;
+        return super.getAll();
     }
 
     @Override
     public void removeById(Long id) throws DaoException {
-
+        throw new UnsupportedOperationException();
     }
 
     public List<Task> getTasksByCourseName(String courseName) throws DaoException {
