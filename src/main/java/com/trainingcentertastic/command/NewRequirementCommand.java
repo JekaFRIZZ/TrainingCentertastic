@@ -1,38 +1,46 @@
 package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Course;
-import com.trainingcentertastic.exception.DaoException;
+import com.trainingcentertastic.entity.User;
 import com.trainingcentertastic.exception.ServiceException;
+import com.trainingcentertastic.parser.RequirementParser;
 import com.trainingcentertastic.service.CourseService;
+import com.trainingcentertastic.service.UserService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.util.List;
 
 public class NewRequirementCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/course.jsp";
-    private final CourseService service;
+    private static final String PAGE = "WEB-INF/view/course.jsp";
+    private final CourseService courseService;
+    private final UserService userService;
+    private final RequirementParser requirementParser;
 
-    public NewRequirementCommand(CourseService service) {
-        this.service = service;
+    public NewRequirementCommand(CourseService courseService, UserService userService, RequirementParser requirementParser) {
+        this.courseService = courseService;
+        this.userService = userService;
+        this.requirementParser = requirementParser;
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
-        HttpSession session = request.getSession();
-
-        String name = (String) session.getAttribute("nameCourse");
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        String nameCourse = request.getParameter("nameCourse");
         String requirement = request.getParameter("newRequirement");
 
-        Course course = service.getCourseByName(name).get();
-        service.updateRequirement(requirement, course.getName());
-        course = service.getCourseByName(name).get();
+        List<User> students = userService.getStudentsByCourseName(nameCourse);
+        Course course = courseService.getCourseByName(nameCourse).get();
+        courseService.updateRequirement(requirement, course.getName());
+        course = courseService.getCourseByName(nameCourse).get();
+        List<String> requirements = requirementParser.parseRequirement(requirement);
 
-        session.setAttribute("course", course);
+        request.setAttribute("course", course);
+        request.setAttribute("students", students);
+        request.setAttribute("nameCourse", nameCourse);
+        request.setAttribute("requirements",requirements);
         request.setAttribute("successRequirement", "Requirements changed!");
+
         return CommandResult.forward(PAGE);
     }
 }

@@ -4,45 +4,44 @@ import com.trainingcentertastic.connetion.ConnectionException;
 import com.trainingcentertastic.connetion.ConnectionPool;
 import com.trainingcentertastic.dao.DaoHelper;
 import com.trainingcentertastic.exception.DaoException;
+import com.trainingcentertastic.parser.RequirementParser;
 import com.trainingcentertastic.service.*;
+import org.apache.log4j.Logger;
 
 public class CommandFactory {
-
-    public static final String LOGIN = "login";
-    public static final String MAIN_PAGE = "mainPage";
-    public static final String COURSES = "courses";
-    public static final String MY_PROFILE = "myProfile";
-    public static final String LOGOUT = "logout";
-    public static final String CHANGE_LANGUAGE = "changeLanguage";
-    public static final String STUDENTS = "students";
-    public static final String FIND_STUDENT = "findStudent";
-    public static final String COURSE = "course";
-    public static final String UNKNOWN_TYPE_OF_COMMAND = "Unknown type of command ";
-    public static final String MY_PROFILE_STUDENT = "myProfileStudent";
-    public static final String NEW_REQUIREMENT = "newRequirement";
-    public static final String SUBMIT_STUDENT = "submitStudent";
-    public static final String STUDY_COURSE = "studyCourse";
-    public static final String TASK = "task";
-    public static final String MY_COURSES_TEACHER = "myCoursesTeacher";
-    public static final String SUBJECT_TAUGHT = "subjectTaught";
-    public static final String TASK_VIEWER = "taskViewer";
-    public static final String CHANGE_LINK = "changeLink";
-    public static final String TEACHERS = "teachers";
+    private static final Logger LOGGER = Logger.getLogger(CommandFactory.class);
+    private static final String LOGIN = "login";
+    private static final String MAIN_PAGE = "mainPage";
+    private static final String COURSES = "courses";
+    private static final String MY_PROFILE = "myProfile";
+    private static final String LOGOUT = "logout";
+    private static final String CHANGE_LANGUAGE = "changeLanguage";
+    private static final String STUDENTS = "students";
+    private static final String FIND_STUDENT = "findStudent";
+    private static final String COURSE = "course";
+    private static final String UNKNOWN_TYPE_OF_COMMAND = "Unknown type of command ";
+    private static final String MY_PROFILE_STUDENT = "myProfileStudent";
+    private static final String NEW_REQUIREMENT = "newRequirement";
+    private static final String SUBMIT_STUDENT = "submitStudent";
+    private static final String STUDY_COURSE = "studyCourse";
+    private static final String TASK = "task";
+    private static final String MY_COURSES_TEACHER = "myCoursesTeacher";
+    private static final String SUBJECT_TAUGHT = "subjectTaught";
+    private static final String TASK_VIEWER = "taskViewer";
+    private static final String CHANGE_LINK = "changeLink";
+    private static final String TEACHERS = "teachers";
+    private static final String FIND_TEACHER = "findTeacher";
 
     private ConnectionPool pool;
     private DaoHelper helper;
 
-    public CommandFactory() throws ConnectionException, DaoException {
+    public CommandFactory() {
         pool = ConnectionPool.getInstance();
-        try {
-            helper = new DaoHelper(pool.getConnection());
-        } catch (ConnectionException exception) {
-            throw new DaoException(exception);
-        }
+        helper = new DaoHelper(pool.getConnection());
     }
 
-
     public Command create(String type) {
+        LOGGER.debug("command " + type);
         switch (type) {
             case LOGIN:
                 return new LoginCommand(new UserService(helper.createUserDao()));
@@ -57,15 +56,15 @@ public class CommandFactory {
             case CHANGE_LANGUAGE:
                 return new ChangeLanguageCommand();
             case STUDENTS:
-                return new StudentsCommand(new StudentService(helper.createStudentDao()));
+                return new StudentsCommand(new UserService(helper.createUserDao()));
             case FIND_STUDENT:
-                return new FindStudentCommand(new StudentService(helper.createStudentDao()));
+                return new FindStudentCommand(new UserService(helper.createUserDao()));
             case COURSE:
-                return new CourseCommand(new CourseService(helper.createCourseDao()), new StudentService(helper.createStudentDao()));
+                return new CourseCommand(new CourseService(helper.createCourseDao()), new UserService(helper.createUserDao()), new RequirementParser());
             case MY_PROFILE_STUDENT:
-                return new MyProfileStudentCommand(new CourseService(helper.createCourseDao()), new StudentService(helper.createStudentDao()));
+                return new MyProfileStudentCommand(new CourseService(helper.createCourseDao()));
             case NEW_REQUIREMENT:
-                return new NewRequirementCommand(new CourseService(helper.createCourseDao()));
+                return new NewRequirementCommand(new CourseService(helper.createCourseDao()), new UserService(helper.createUserDao()), new RequirementParser());
             case SUBMIT_STUDENT:
                 return new SubmitStudentCommand(new CourseUsersService(helper.createCourseUsersDao()));
             case STUDY_COURSE:
@@ -75,14 +74,17 @@ public class CommandFactory {
             case MY_COURSES_TEACHER:
                 return new MyCoursesTeacherCommand(new CourseService(helper.createCourseDao()));
             case SUBJECT_TAUGHT:
-                return new SubjectTaughtCommand(new StudentService(helper.createStudentDao()));
+                return new SubjectTaughtCommand(new UserService(helper.createUserDao()));
             case TASK_VIEWER:
                 return new HomeworkCommand(new HomeworkService(helper.createHomeworkDao()), new TaskService(helper.createTaskDao()));
             case CHANGE_LINK:
                 return new ChangeLinkCommand(new HomeworkService(helper.createHomeworkDao()));
             case TEACHERS:
-                return new TeachersCommand(new CourseUsersService(helper.createCourseUsersDao()));
+                return new TeachersCommand(new UserService(helper.createUserDao()));
+            case FIND_TEACHER:
+                return new FindTeacherCommand(new UserService(helper.createUserDao()));
             default:
+                LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);
         }
     }

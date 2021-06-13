@@ -1,45 +1,38 @@
 package com.trainingcentertastic.command;
 
-import com.trainingcentertastic.entity.Student;
-import com.trainingcentertastic.exception.DaoException;
+import com.trainingcentertastic.entity.User;
 import com.trainingcentertastic.exception.ServiceException;
-import com.trainingcentertastic.service.StudentService;
+import com.trainingcentertastic.service.UserService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Optional;
 
 public class FindStudentCommand implements Command{
 
-    public static final String PAGE = "WEB-INF/view/students.jsp";
-    private final StudentService service;
+    private static final String PAGE = "WEB-INF/view/students.jsp";
+    private final UserService userService;
 
-    public FindStudentCommand(StudentService service) {
-        this.service = service;
+    public FindStudentCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
-        HttpSession session = request.getSession();
-        String idString = request.getParameter("idStudent");
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        String nameStudent = request.getParameter("nameStudent");
 
-        if(idString == null) {
-            return CommandResult.forward("WEB-INF/view/students.jsp");
+        if(nameStudent == null) {
+            return CommandResult.forward(PAGE);
         }
 
 
-        Optional<Student> student = service.getStudentById(Long.parseLong(idString));
+        Optional<User> student = userService.getUserByUsername(nameStudent);
 
         if(student.isPresent()) {
             Long id = student.get().getId();
             String username = student.get().getUsername();
-            String review = student.get().getReview();
             request.setAttribute("id", id);
             request.setAttribute("username", username);
-            request.setAttribute("review", review);
         }
         else {
             request.setAttribute("notExist", "Student isn`t exist");

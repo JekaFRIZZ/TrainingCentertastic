@@ -1,49 +1,49 @@
 package com.trainingcentertastic.command;
 
-import com.trainingcentertastic.entity.Student;
-import com.trainingcentertastic.exception.DaoException;
+import com.trainingcentertastic.entity.Role;
+import com.trainingcentertastic.entity.User;
 import com.trainingcentertastic.exception.ServiceException;
-import com.trainingcentertastic.service.StudentService;
+import com.trainingcentertastic.service.UserService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
-public class StudentsCommand implements Command {
+public class StudentsCommand implements Command, Paginating {
 
-    public static final String PAGE = "WEB-INF/view/students.jsp";
-    private final StudentService service;
+    private static final String PAGE = "WEB-INF/view/students.jsp";
+    private final UserService userService;
 
-    public StudentsCommand(StudentService service) {
-        this.service = service;
+    public StudentsCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
-        HttpSession session = request.getSession();
-
-        int page = 1;
-        int recordsPerPage = 5;
-        String requestPage = request.getParameter("page");
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String command = request.getParameter("command");
+
+        paginate(request, response);
+        request.setAttribute("command", command);
+
+        return CommandResult.forward(PAGE);
+    }
+
+    @Override
+    public void paginate(HttpServletRequest request, HttpServletResponse response, String... params) throws ServiceException {
+        int page = 1;
+        String requestPage = request.getParameter("page");
 
         if(requestPage != null && !"".equals(requestPage)) {
             page = Integer.parseInt(requestPage);
         }
 
-        List<Student> students = service.getLimit((page - 1) * recordsPerPage, recordsPerPage);
+        List<User> students = userService.getLimitByRole(Role.STUDENT,(page - 1) * RECORDS_PER_PAGE, RECORDS_PER_PAGE);
 
-        int noOfRecords = service.getAll().size();
-        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        int noOfRecords = userService.getAllByRole(Role.STUDENT).size();
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / RECORDS_PER_PAGE);
 
-        session.setAttribute("students", students);
-        session.setAttribute("noOfPages",noOfPages);
-        session.setAttribute("currentPage", page);
-        session.setAttribute("command", command);
-
-        return CommandResult.forward(PAGE);
+        request.setAttribute("students", students);
+        request.setAttribute("noOfPages",noOfPages);
+        request.setAttribute("currentPage", page);
     }
 }

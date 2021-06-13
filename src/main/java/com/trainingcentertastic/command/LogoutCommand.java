@@ -9,10 +9,10 @@ import java.io.IOException;
 
 public class LogoutCommand implements Command{
 
-    public static final String PAGE = "index.jsp";
+    private static final String PAGE = "index.jsp";
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         request.getSession().invalidate();
         return CommandResult.forward(PAGE);
     }

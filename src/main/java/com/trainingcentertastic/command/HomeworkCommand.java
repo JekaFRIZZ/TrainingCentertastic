@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HomeworkCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/homework.jsp";
+    private static final String PAGE = "WEB-INF/view/homework.jsp";
     private final HomeworkService homeworkService;
     private final TaskService taskService;
 
@@ -25,7 +25,7 @@ public class HomeworkCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
         String username = request.getParameter("username");
@@ -48,9 +48,9 @@ public class HomeworkCommand implements Command {
 
         List<Homework> homeworks = homeworkService.getAllHomeworksStudentByUsername(username, nameCourse);
 
-        session.setAttribute("homeworks", homeworks);
-        session.setAttribute("username", username);
-        session.setAttribute("nameCourse", nameCourse);
+        request.setAttribute("homeworks", homeworks);
+        request.setAttribute("username", username);
+        request.setAttribute("nameCourse", nameCourse);
 
         return CommandResult.forward(PAGE);
     }

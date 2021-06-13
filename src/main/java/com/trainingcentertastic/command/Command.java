@@ -1,13 +1,24 @@
 package com.trainingcentertastic.command;
 
-import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.exception.ServiceException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+/**
+ * The command interface {@code Command} is designed to process the request and return a response
+ *
+ * @author Eugene Lapko
+ * @see com.trainingcentertastic.command.CommandFactory
+ */
 public interface Command {
-    CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException;
+    /**
+     *
+     * @param request Interface serving to provide request information for HTTP Servlets
+     * @param response provide HTTP-specific functionality in sending a response
+     * @return {@code CommandResult} which contains the page and does forward or redirect
+     * @throws ServiceException is thrown when there is an error in the business logic of the application
+     * or when the request is incorrect
+     */
+    CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException;
 }

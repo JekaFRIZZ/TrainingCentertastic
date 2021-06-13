@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyCoursesTeacherCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/myProfile.jsp";
+    private static final String PAGE = "WEB-INF/view/myProfile.jsp";
     private final CourseService courseService;
 
     public MyCoursesTeacherCommand(CourseService courseService) {
@@ -22,16 +22,16 @@ public class MyCoursesTeacherCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
-        String username = (String) session.getAttribute("name");
+        String username = (String) session.getAttribute("username");
         String nameCourse = request.getParameter("nameCourse");
 
         List<Course> courses = courseService.getCoursesByUsername(username);
 
-        session.setAttribute("courses", courses);
-        session.setAttribute("nameCourse", nameCourse);
+        request.setAttribute("courses", courses);
+        request.setAttribute("nameCourse", nameCourse);
 
         return CommandResult.forward(PAGE);
     }

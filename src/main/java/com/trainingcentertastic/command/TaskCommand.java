@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class TaskCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/task.jsp";
+    private static final String PAGE = "WEB-INF/view/task.jsp";
     private final TaskService taskService;
 
     public TaskCommand(TaskService taskService) {
@@ -21,11 +21,12 @@ public class TaskCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
         String taskName = request.getParameter("taskName");
         String nameCourse = request.getParameter("nameCourse");
+        String command = request.getParameter("command");
 
         if(taskName == null || nameCourse == null) {
             taskName = (String) session.getAttribute("taskName");
@@ -36,6 +37,7 @@ public class TaskCommand implements Command {
 
         session.setAttribute("assignment", task.getAssignment());
         session.setAttribute("taskName", taskName);
+        request.setAttribute("command", command);
         return CommandResult.forward(PAGE);
     }
 }

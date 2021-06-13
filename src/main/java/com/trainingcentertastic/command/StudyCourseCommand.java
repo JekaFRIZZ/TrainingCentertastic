@@ -14,7 +14,7 @@ import java.util.List;
 
 public class StudyCourseCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/studyCourse.jsp";
+    private static final String PAGE = "WEB-INF/view/studyCourse.jsp";
     private final TaskService taskService;
 
     public StudyCourseCommand(TaskService taskService) {
@@ -22,17 +22,20 @@ public class StudyCourseCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
-        String courseName = request.getParameter("nameCourse");
-        if(courseName == null) {
-            courseName = (String) session.getAttribute("nameCourse");
-        }
+        String nameCourse = request.getParameter("nameCourse");
+        String command = request.getParameter("command");
 
-        List<Task> tasks = taskService.getTasksByCourseName(courseName);
+        if(nameCourse == null) {
+            nameCourse = (String) session.getAttribute("nameCourse");
+        }
+        List<Task> tasks = taskService.getTasksByCourseName(nameCourse);
 
         session.setAttribute("tasks", tasks);
+        session.setAttribute("nameCourse", nameCourse);
+        request.setAttribute("command", command);
 
         return CommandResult.forward(PAGE);
     }

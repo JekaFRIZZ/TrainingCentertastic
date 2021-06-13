@@ -4,16 +4,13 @@ import com.trainingcentertastic.entity.Course;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.CourseService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
-public class CoursesCommand implements Command {
+public class CoursesCommand implements Command, Paginating {
 
-    public static final String PAGE = "WEB-INF/view/courses.jsp";
+    private static final String PAGE = "WEB-INF/view/courses.jsp";
     private final CourseService service;
 
     public CoursesCommand(CourseService service) {
@@ -21,28 +18,32 @@ public class CoursesCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException {
-        HttpSession session = request.getSession();
-
-        int page = 1;
-        int recordsPerPage = 3;
-        String requestPage = request.getParameter("page");
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String command = request.getParameter("command");
+
+        request.setAttribute("command", command);
+
+        paginate(request, response);
+
+        return CommandResult.forward(PAGE);
+    }
+
+    @Override
+    public void paginate(HttpServletRequest request, HttpServletResponse response, String... params) throws ServiceException {
+        int page = 1;
+        String requestPage = request.getParameter("page");
 
         if(requestPage != null && !"".equals(requestPage)) {
             page = Integer.parseInt(requestPage);
         }
 
-        List<Course> courses = service.getLimit((page - 1) * recordsPerPage, recordsPerPage);
+        List<Course> courses = service.getLimit((page - 1) * RECORDS_PER_PAGE_FOR_COURSES, RECORDS_PER_PAGE_FOR_COURSES);
 
         int noOfRecords = service.getAll().size();
-        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / RECORDS_PER_PAGE_FOR_COURSES);
 
-        session.setAttribute("courses", courses);
-        session.setAttribute("noOfPages",noOfPages);
-        session.setAttribute("currentPage", page);
-        session.setAttribute("command", command);
-
-        return CommandResult.forward(PAGE);
+        request.setAttribute("courses", courses);
+        request.setAttribute("noOfPages",noOfPages);
+        request.setAttribute("currentPage", page);
     }
 }

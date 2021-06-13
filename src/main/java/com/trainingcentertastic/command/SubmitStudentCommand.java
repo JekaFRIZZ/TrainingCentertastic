@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class SubmitStudentCommand implements Command {
 
-    public static final String PAGE = "WEB-INF/view/course.jsp";
+    private static final String PAGE = "WEB-INF/view/course.jsp";
     private final CourseUsersService courseUsersService;
 
     public SubmitStudentCommand(CourseUsersService courseUsersService) {
@@ -22,11 +22,11 @@ public class SubmitStudentCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, ServletException, IOException, DaoException, com.google.protobuf.ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
-        String username = (String) session.getAttribute("name");
-        String nameCourse = (String) session.getAttribute("nameCourse");
+        String username = (String) session.getAttribute("username");
+        String nameCourse = request.getParameter("nameCourse");
 
         Optional<CourseUsers> courseUsersOptional = courseUsersService.checkSubmit(nameCourse, username);
 
