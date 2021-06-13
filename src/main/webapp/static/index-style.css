@@ -14,7 +14,7 @@ label {
 .login {
     margin: 0 auto;
     font-family: Arial, Helvetica, sans-serif;
-    background: #00e68a;
+    background:  #c1ddd1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,12 +24,12 @@ label {
 form {
     margin: 0 auto;
     font-family: Arial, Helvetica, sans-serif;
-    background: #00e68a;
+    background:  #c1ddd1;
     display: inline-block;
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #f6b8b3;
     font-size: 18px;
     color: white;
     padding: 14px 20px;
