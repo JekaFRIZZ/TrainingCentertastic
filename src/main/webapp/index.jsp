@@ -30,7 +30,7 @@
 
                 <c:if test="${errorMessage != null}">
                     <h5 class="incorrect-input">
-                        <br/><br/>${error}
+                        <br/><br/>${errorMessage}
                     </h5>
                 </c:if>
 

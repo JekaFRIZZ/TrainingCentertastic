@@ -31,7 +31,7 @@ public class LoginCommand implements Command{
         String password = request.getParameter("password");
 
         if(username == null || password == null) {
-            return CommandResult.redirect("index.jsp");
+            return CommandResult.forward(PAGE);
         }
 
         Optional<User> optionalUser = service.login(username, password);
@@ -45,8 +45,6 @@ public class LoginCommand implements Command{
             return CommandResult.forward(MAIN_PAGE);
         }
         request.setAttribute("errorMessage", INVALID_INPUT);
-        return CommandResult.redirect(PAGE);
-
-
+        return CommandResult.forward(PAGE);
     }
 }
