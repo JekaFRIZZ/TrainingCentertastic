@@ -37,7 +37,7 @@ public class MyProfileStudentCommand implements Command, Paginating {
         int page = 1;
         String requestPage = request.getParameter("page");
 
-        if(requestPage != null && !"".equals(requestPage)) {
+        if(requestPage != null && !requestPage.isEmpty()) {
             page = Integer.parseInt(requestPage);
         }
 

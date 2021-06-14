@@ -34,7 +34,7 @@ public class TeachersCommand implements Command, Paginating {
 
         String requestPage = request.getParameter("page");
 
-        if(requestPage != null && !"".equals(requestPage)) {
+        if(requestPage != null && !requestPage.isEmpty()) {
             page = Integer.parseInt(requestPage);
         }
 
