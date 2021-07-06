@@ -72,4 +72,13 @@ public class UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void deleteUserByUsername(Long id) throws ServiceException {
+        try {
+            userDao.removeById(id);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

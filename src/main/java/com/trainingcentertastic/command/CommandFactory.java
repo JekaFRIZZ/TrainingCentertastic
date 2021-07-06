@@ -1,14 +1,13 @@
 package com.trainingcentertastic.command;
 
-import com.trainingcentertastic.connetion.ConnectionException;
 import com.trainingcentertastic.connetion.ConnectionPool;
 import com.trainingcentertastic.dao.DaoHelper;
-import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.parser.RequirementParser;
 import com.trainingcentertastic.service.*;
 import org.apache.log4j.Logger;
 
 public class CommandFactory {
+    private static final String DELETE_TEACHER = "deleteTeacher";
     private static final Logger LOGGER = Logger.getLogger(CommandFactory.class);
     private static final String LOGIN = "login";
     private static final String MAIN_PAGE = "mainPage";
@@ -83,6 +82,8 @@ public class CommandFactory {
                 return new TeachersCommand(new UserService(helper.createUserDao()));
             case FIND_TEACHER:
                 return new FindTeacherCommand(new UserService(helper.createUserDao()));
+            case DELETE_TEACHER:
+                return new DeleteTeacherCommand(new UserService(helper.createUserDao()));
             default:
                 LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);

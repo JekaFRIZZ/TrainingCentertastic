@@ -42,6 +42,7 @@ public class AccessFilter implements Filter {
         ACCESS_COMMANDS.put("teachers", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("course", Arrays.asList(Role.ADMIN, Role.STUDENT));
         ACCESS_COMMANDS.put("findTeacher", Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put("deleteTeacher", Arrays.asList(Role.ADMIN));
     }
 
     @Override
@@ -50,6 +51,11 @@ public class AccessFilter implements Filter {
         HttpSession session = request.getSession();
 
         String command = request.getParameter("command");
+
+        if(command.equals("changeLanguage")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+
         Role currentRole = (Role) session.getAttribute("role");
 
         if(currentRole == null) {

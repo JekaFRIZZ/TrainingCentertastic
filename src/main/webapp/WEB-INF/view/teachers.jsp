@@ -55,6 +55,20 @@
         </table>
       </c:if>
     </nav>
+
+    <nav class="delete">
+      <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="command" value="deleteTeacher"/>
+
+        <label for="nameTeacher"><b><fmt:message key="lable.deleteTeacher"/></b></label>
+        <input type="text" placeholder="${enterUsername}" name="nameTeacher" required/><br/>
+
+        <button type="submit"><fmt:message key="button.delete"/></button>
+        <c:if test="${deleteMessage != null}">
+          ${deleteMessage}
+        </c:if>
+      </form>
+    </nav>
   </main>
 
 </body>
