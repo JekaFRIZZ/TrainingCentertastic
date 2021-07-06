@@ -2,6 +2,7 @@ package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Course;
 import com.trainingcentertastic.exception.ServiceException;
+import com.trainingcentertastic.pagination.Paginating;
 import com.trainingcentertastic.service.CourseService;
 
 import javax.servlet.http.HttpServletRequest;

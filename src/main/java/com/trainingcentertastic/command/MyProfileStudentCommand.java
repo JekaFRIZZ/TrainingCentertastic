@@ -2,6 +2,7 @@ package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Course;
 import com.trainingcentertastic.exception.ServiceException;
+import com.trainingcentertastic.pagination.Paginating;
 import com.trainingcentertastic.service.CourseService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class MyProfileStudentCommand implements Command, Paginating {
         List<Course> courses = courseService.getLimitByUsername((page - 1) * RECORDS_PER_PAGE_FOR_COURSES,
                 RECORDS_PER_PAGE_FOR_COURSES, params[0]);
 
-        int noOfRecords = courses.size();
+        int noOfRecords = courseService.getCoursesByUsername(params[0]).size();
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / RECORDS_PER_PAGE_FOR_COURSES);
 
         request.setAttribute("courses", courses);

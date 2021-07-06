@@ -1,4 +1,4 @@
-package com.trainingcentertastic.command;
+package com.trainingcentertastic.pagination;
 
 import com.trainingcentertastic.exception.ServiceException;
 

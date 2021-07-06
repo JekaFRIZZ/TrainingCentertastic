@@ -1,12 +1,9 @@
 package com.trainingcentertastic.controller;
 
-import com.trainingcentertastic.connetion.ConnectionException;
-import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.command.Command;
 import com.trainingcentertastic.command.CommandFactory;
 import com.trainingcentertastic.command.CommandResult;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,14 +42,5 @@ public class Controller extends HttpServlet {
         } else {
             response.sendRedirect(page);
         }
-    }
-
-    private void forward(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-        dispatcher.forward(request, response);
-    }
-
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String page) throws IOException {
-        response.sendRedirect(request.getContextPath() + page);
     }
 }

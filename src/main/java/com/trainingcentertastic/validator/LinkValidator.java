@@ -7,5 +7,4 @@ public class LinkValidator {
     public boolean isLink(String text) {
         return text.matches(REGEX);
     }
-
 }

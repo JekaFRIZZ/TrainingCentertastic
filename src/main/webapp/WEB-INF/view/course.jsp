@@ -21,14 +21,16 @@
             <h3>${nameCourse}</h3>
         </nav>
         <nav>
-            <h3 class="requirement-title"><fmt:message key="h3.requirements"/></h3>
+            <c:if test="${submit == null}">
+                <h3 class="requirement-title"><fmt:message key="h3.requirements"/></h3>
+            </c:if>
             <nav class="requirements">
                 <c:forEach var="requirement" items="${requirements}">
                         <h5><li>${requirement}</li></h5>
                 </c:forEach>
             </nav>
 
-            <c:if test="${sessionScope.role == 'ADMIN' || sessionScope.role == 'TEACHER'}">
+            <c:if test="${sessionScope.role == 'ADMIN'}">
                 <table class="table-all">
                     <tr>
                         <th><fmt:message key="th.username"/></th>
@@ -58,11 +60,13 @@
                 </nav>
             </c:if>
             <c:if test="${sessionScope.role == 'STUDENT'}">
-                <form action="${pageContext.request.contextPath}/controller" method="post">
-                    <input type="hidden" name="command" value="submitStudent">
-                    <input type="hidden" name="nameCourse" value="${requestScope.nameCourse}">
-                    <button type="submit">${submitText}</button>
-                </form>
+                <c:if test="${submit == null}">
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
+                        <input type="hidden" name="command" value="submitStudent">
+                        <input type="hidden" name="nameCourse" value="${requestScope.nameCourse}">
+                        <button type="submit">${submitText}</button>
+                    </form>
+                </c:if>
 
                 <nav>
                     <c:if test="${submit != null}">

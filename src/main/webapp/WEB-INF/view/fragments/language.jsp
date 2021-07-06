@@ -7,7 +7,7 @@
 <body class="body-header-index">
 
     <div class="languages">
-        <form class="change-lang" action="/controller"
+        <form class="change-lang" action="${pageContext.request.contextPath}/controller"
               method="post">
             <input class="change-lang-btn" type="submit" value="ru"/>
             <input type="hidden" name="local" value="ru_RU"/>
@@ -17,7 +17,7 @@
             <input type="hidden" name="nameCourse" value="${nameCourse}">
         </form>
 
-        <form class="change-lang" action="/controller"
+        <form class="change-lang" action="${pageContext.request.contextPath}/controller"
               method="post">
             <input class="change-lang-btn" type="submit" value="by"/>
             <input type="hidden" name="local" value="by_BY"/>
@@ -27,7 +27,7 @@
             <input type="hidden" name="nameCourse" value="${nameCourse}">
         </form>
 
-        <form class="change-lang" action="/controller"
+        <form class="change-lang" action="${pageContext.request.contextPath}/controller"
               method="post">
             <input class="change-lang-btn" type="submit" value="en"/>
             <input type="hidden" name="local" value="en_US"/>

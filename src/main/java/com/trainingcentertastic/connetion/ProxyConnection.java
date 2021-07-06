@@ -16,6 +16,7 @@ public class ProxyConnection implements Connection, AutoCloseable {
     void setConnectionPool(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
+
     @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();

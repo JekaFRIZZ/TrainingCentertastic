@@ -1,6 +1,5 @@
 package com.trainingcentertastic.dao;
 
-import com.trainingcentertastic.connetion.ConnectionException;
 import com.trainingcentertastic.connetion.ProxyConnection;
 import com.trainingcentertastic.exception.DaoException;
 

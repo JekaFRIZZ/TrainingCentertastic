@@ -21,7 +21,12 @@ public class ChangeLanguageCommand implements Command {
         if(page.isEmpty()) {
             path += "login";
         }
-        path += page;
+        else if(page.equals("newRequirement")) {
+            path += "course";
+        }
+        else {
+            path += page;
+        }
         return CommandResult.forward(path);
     }
 }
