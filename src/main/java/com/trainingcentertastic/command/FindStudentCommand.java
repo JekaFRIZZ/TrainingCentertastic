@@ -30,9 +30,9 @@ public class FindStudentCommand implements Command{
 
         if(student.isPresent()) {
             Long id = student.get().getId();
-            String username = student.get().getUsername();
+            String name = student.get().getUsername();
             request.setAttribute("id", id);
-            request.setAttribute("username", username);
+            request.setAttribute("name", name);
         }
         else {
             request.setAttribute("notExist", "Student isn`t exist");

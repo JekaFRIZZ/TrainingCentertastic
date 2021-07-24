@@ -54,9 +54,7 @@
             </tr>
         </table>
       </c:if>
-    </nav>
-
-    <nav class="delete">
+    
       <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="deleteTeacher"/>
 

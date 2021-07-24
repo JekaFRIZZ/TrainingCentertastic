@@ -5,7 +5,7 @@ import com.trainingcentertastic.exception.DaoException;
 
 import java.sql.SQLException;
 
-public class DaoHelper implements AutoCloseable{
+public class DaoHelper implements AutoCloseable {
     private final ProxyConnection connection;
 
     public DaoHelper(ProxyConnection connection) {
