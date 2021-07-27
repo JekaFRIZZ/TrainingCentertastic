@@ -77,7 +77,15 @@ public class AccessFilter implements Filter {
     public void destroy() {}
 
     public void authentication(ServletRequest servletRequest, ServletResponse servletResponse,FilterChain filterChain, String command) throws ServletException, IOException {
-        if(!command.equals(LOGIN)) {
+        //Move to a separate method for verification command
+        if(command.equals("registrationPage")) {
+            RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("WEB-INF/view/registration.jsp");
+            dispatcher.forward(servletRequest, servletResponse);
+        }
+        else if(command.equals("registration")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+        else if(!command.equals(LOGIN)) {
             RequestDispatcher dispatcher = servletRequest.getRequestDispatcher(LOGIN_PAGE);
             dispatcher.forward(servletRequest, servletResponse);
         }

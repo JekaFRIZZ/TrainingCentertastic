@@ -84,6 +84,10 @@ public class CommandFactory {
                 return new FindTeacherCommand(new UserService(helper.createUserDao()));
             case DELETE_TEACHER:
                 return new DeleteTeacherCommand(new UserService(helper.createUserDao()));
+            case "registrationPage":
+                return new ShowPageCommand("WEB-INF/view/registration.jsp");
+            case "registration":
+                return new RegistrationCommand(new UserService(helper.createUserDao()));
             default:
                 LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);

@@ -81,4 +81,13 @@ public class UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void addStudent(String username, String password) throws ServiceException {
+        try {
+            userDao.addStudent(username, password);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

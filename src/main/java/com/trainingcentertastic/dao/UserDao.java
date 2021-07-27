@@ -83,4 +83,8 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     public List<User> getStudentsByCourseName(String courseName) throws DaoException {
         return executeQuery(FIND_COURSE_BY_COURSE_NAME, new UserMapper(), courseName);
     }
+
+    public void addStudent(String username, String password) throws DaoException {
+        create(new User(username, password, Role.STUDENT));
+    }
 }
