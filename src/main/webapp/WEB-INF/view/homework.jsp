@@ -15,7 +15,7 @@
 <main>
     <table class="table-all">
         <tr>
-            <td><fmt:message key="lable.username"/></td>
+            <td><fmt:message key="td.taskName"/></td>
             <td><fmt:message key="title.course"/></td>
             <td><fmt:message key="td.link"/></td>
             <td><fmt:message key="td.mark"/></td>
@@ -23,7 +23,7 @@
         </tr>
         <c:forEach var="homework" items="${homeworks}">
             <tr>
-                <td>${homework.username}</td>
+                <td>${homework.taskName}</td>
                 <td>${homework.courseName}</td>
                 <td><a href="${homework.link}">${homework.link}</a></td>
                 <td>
