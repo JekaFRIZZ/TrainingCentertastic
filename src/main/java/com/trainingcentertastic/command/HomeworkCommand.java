@@ -1,16 +1,14 @@
 package com.trainingcentertastic.command;
 
 import com.trainingcentertastic.entity.Homework;
-import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.HomeworkService;
 import com.trainingcentertastic.service.TaskService;
+import com.trainingcentertastic.validator.MarkValidator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 public class HomeworkCommand implements Command {
@@ -30,17 +28,23 @@ public class HomeworkCommand implements Command {
 
         String username = request.getParameter("username");
         String nameCourse = request.getParameter("nameCourse");
-        if(username == null || nameCourse == null) {
+        if (username == null || nameCourse == null) {
             username = (String) session.getAttribute("username");
             nameCourse = (String) session.getAttribute("nameCourse");
         }
 
-        if(request.getParameter("mark") != null) {
+        if (request.getParameter("mark") != null) {
             Long id = Long.parseLong(request.getParameter("taskId"));
-            int mark = Integer.parseInt(request.getParameter("mark"));
-            homeworkService.updateMark(id, username, mark);
+            String stringMark = request.getParameter("mark");
+            if (MarkValidator.checkMark(stringMark)) {
+                int mark = Integer.parseInt(stringMark);
+                homeworkService.updateMark(id, username, mark);
+            } else {
+                request.setAttribute("incorrectMark", "Incorrect mark");
+            }
         }
-        if(request.getParameter("review") != null) {
+
+        if (request.getParameter("review") != null) {
             Long id = Long.parseLong(request.getParameter("taskId"));
             String review = request.getParameter("review");
             homeworkService.updateReview(id, username, review);
@@ -48,12 +52,10 @@ public class HomeworkCommand implements Command {
 
         List<Homework> homeworks = homeworkService.getAllHomeworksStudentByUsername(username, nameCourse);
 
-        request.setAttribute("homeworks", homeworks);
-        request.setAttribute("username", username);
-        request.setAttribute("nameCourse", nameCourse);
+        session.setAttribute("homeworks", homeworks);
+        session.setAttribute("username", username);
+        session.setAttribute("nameCourse", nameCourse);
 
         return CommandResult.forward(PAGE);
     }
-
-
 }

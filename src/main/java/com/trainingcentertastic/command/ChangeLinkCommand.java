@@ -13,7 +13,6 @@ public class ChangeLinkCommand implements Command {
     private static final String PAGE = "WEB-INF/view/task.jsp";
     private static final String INCORRECT_LINK = "Link to github required";
     private final HomeworkService homeworkService;
-    private static final LinkValidator LINK_VALIDATOR = new LinkValidator();
 
     public ChangeLinkCommand(HomeworkService homeworkService) {
         this.homeworkService = homeworkService;
@@ -27,7 +26,7 @@ public class ChangeLinkCommand implements Command {
         String taskName = request.getParameter("taskName");
         String link = request.getParameter("link");
 
-        if(LINK_VALIDATOR.isLink(link)) {
+        if(LinkValidator.isLink(link)) {
             homeworkService.updateLink(taskName, username, link);
         }
         else {
