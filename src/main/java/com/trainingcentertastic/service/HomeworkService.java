@@ -7,6 +7,7 @@ import com.trainingcentertastic.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class HomeworkService {
     private static final Logger LOGGER = Logger.getLogger(HomeworkService.class);
@@ -46,6 +47,15 @@ public class HomeworkService {
     public void updateLink(String taskName, String username, String link) throws ServiceException {
         try {
             homeworkDao.updateLink(taskName, username, link);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public Optional<Homework> getHomeworkStudent(String taskName, String username) throws ServiceException {
+        try {
+            return homeworkDao.getByTaskName(taskName, username);
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);

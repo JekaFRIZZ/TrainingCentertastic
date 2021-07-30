@@ -69,7 +69,7 @@ public class CommandFactory {
             case STUDY_COURSE:
                 return new StudyCourseCommand(new TaskService(helper.createTaskDao()));
             case TASK:
-                return new TaskCommand(new TaskService(helper.createTaskDao()));
+                return new TaskCommand(new TaskService(helper.createTaskDao()), new HomeworkService(helper.createHomeworkDao()));
             case MY_COURSES_TEACHER:
                 return new MyCoursesTeacherCommand(new CourseService(helper.createCourseDao()));
             case SUBJECT_TAUGHT:

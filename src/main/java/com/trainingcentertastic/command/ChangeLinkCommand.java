@@ -1,5 +1,6 @@
 package com.trainingcentertastic.command;
 
+import com.trainingcentertastic.entity.Homework;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.HomeworkService;
 import com.trainingcentertastic.validator.LinkValidator;
@@ -26,10 +27,13 @@ public class ChangeLinkCommand implements Command {
         String taskName = request.getParameter("taskName");
         String link = request.getParameter("link");
 
-        if(LinkValidator.isLink(link)) {
+        if (LinkValidator.isLink(link)) {
             homeworkService.updateLink(taskName, username, link);
-        }
-        else {
+            Homework homework = homeworkService.getHomeworkStudent(taskName, username).get();
+            request.setAttribute("link", link);
+            request.setAttribute("mark", homework.getMark());
+            request.setAttribute("review", homework.getReview());
+        } else {
             request.setAttribute("incorrectLink", INCORRECT_LINK);
         }
 

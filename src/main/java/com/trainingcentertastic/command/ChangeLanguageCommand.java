@@ -18,13 +18,13 @@ public class ChangeLanguageCommand implements Command {
         String path = COMMAND;
 
         String page = request.getParameter("currentPage");
-        if(page.isEmpty() || page.equals("logout")) {
+        if (page.isEmpty() || page.equals("logout")) {
             path += "login";
-        }
-        else if(page.equals("newRequirement")) {
+        } else if (page.equals("newRequirement")) {
             path += "course";
-        }
-        else {
+        } else if (page.equals("changeLink")) {
+            path += "task";
+        } else {
             path += page;
         }
         return CommandResult.forward(path);
