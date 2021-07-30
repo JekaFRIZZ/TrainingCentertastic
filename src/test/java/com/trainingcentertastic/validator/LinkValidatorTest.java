@@ -11,15 +11,13 @@ public class LinkValidatorTest {
 
     @Test
     public void testIsValidatorShouldReturnTrueWhenCorrectLinkApplied() {
-        LinkValidator linkValidator = new LinkValidator();
-        boolean actual = linkValidator.isLink(CORRECT_LINK);
+        boolean actual = LinkValidator.isLink(CORRECT_LINK);
         Assert.assertTrue(actual);
     }
 
     @Test
     public void testIsValidateShouldReturnFalseWhenIncorrectLinkApplied() {
-        LinkValidator linkValidator = new LinkValidator();
-        boolean actual = linkValidator.isLink(INCORRECT_LINK);
+        boolean actual = LinkValidator.isLink(INCORRECT_LINK);
         Assert.assertFalse(actual);
     }
 

@@ -18,7 +18,7 @@ public class ChangeLanguageCommand implements Command {
         String path = COMMAND;
 
         String page = request.getParameter("currentPage");
-        if(page.isEmpty()) {
+        if(page.isEmpty() || page.equals("logout")) {
             path += "login";
         }
         else if(page.equals("newRequirement")) {
