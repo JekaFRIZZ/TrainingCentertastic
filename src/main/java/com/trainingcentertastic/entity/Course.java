@@ -18,6 +18,11 @@ public class Course implements Identifiable {
         this.requirement = requirement;
     }
 
+    public Course(String name, String requirement) {
+        this.name = name;
+        this.requirement = requirement;
+    }
+
     public String getRequirement() {
         return requirement;
     }

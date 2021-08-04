@@ -19,7 +19,7 @@ public class CourseService {
 
     public List<Course> getAll() throws ServiceException {
         try {
-            return  courseDao.getAll();
+            return courseDao.getAll();
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
@@ -62,7 +62,7 @@ public class CourseService {
         }
     }
 
-    public void updateRequirement(String requirement,String name) throws ServiceException {
+    public void updateRequirement(String requirement, String name) throws ServiceException {
         try {
             courseDao.updateRequirement(requirement, name);
         } catch (DaoException e) {
@@ -74,6 +74,15 @@ public class CourseService {
     public List<Course> getLimitByUsername(int offset, int recordsPerPage, String username) throws ServiceException {
         try {
             return courseDao.getLimitByUsername(offset, recordsPerPage, username);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public void createCourse(String courseName, String courseRequirement) throws ServiceException {
+        try {
+            courseDao.createCourse(courseName, courseRequirement);
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);

@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class AccessFilter implements Filter {
 
-    private static final Map<String, List<Role>> ACCESS_COMMANDS =  new HashMap<>();
+    private static final Map<String, List<Role>> ACCESS_COMMANDS = new HashMap<>();
     private static final String ERROR_PAGE = "WEB-INF/view/errorPage.jsp";
     private static final String LOGIN_PAGE = "index.jsp";
     private static final String LOGIN = "login";
@@ -43,6 +43,8 @@ public class AccessFilter implements Filter {
         ACCESS_COMMANDS.put("course", Arrays.asList(Role.ADMIN, Role.STUDENT));
         ACCESS_COMMANDS.put("findTeacher", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("deleteTeacher", Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put("newCoursePage", Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put("newCourse", Arrays.asList(Role.ADMIN));
     }
 
     @Override
@@ -52,16 +54,14 @@ public class AccessFilter implements Filter {
 
         String command = request.getParameter("command");
 
-        if(command.equals("changeLanguage")) {
+        if (command.equals("changeLanguage")) {
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
         Role currentRole = (Role) session.getAttribute("role");
-
-        if(currentRole == null) {
+        if (currentRole == null) {
             authentication(servletRequest, servletResponse, filterChain, command);
-        }
-        else {
+        } else {
             List<Role> roles = ACCESS_COMMANDS.get(command);
             if (roles.contains(currentRole)) {
                 filterChain.doFilter(servletRequest, servletResponse);
@@ -74,22 +74,20 @@ public class AccessFilter implements Filter {
     }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 
-    public void authentication(ServletRequest servletRequest, ServletResponse servletResponse,FilterChain filterChain, String command) throws ServletException, IOException {
+    public void authentication(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain, String command) throws ServletException, IOException {
         //Move to a separate method for verification command
-        if(command.equals("registrationPage")) {
+        if (command.equals("registrationPage")) {
             RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("WEB-INF/view/registration.jsp");
             dispatcher.forward(servletRequest, servletResponse);
-        }
-        else if(command.equals("registration")) {
+        } else if (command.equals("registration")) {
             filterChain.doFilter(servletRequest, servletResponse);
-        }
-        else if(!command.equals(LOGIN)) {
+        } else if (!command.equals(LOGIN)) {
             RequestDispatcher dispatcher = servletRequest.getRequestDispatcher(LOGIN_PAGE);
             dispatcher.forward(servletRequest, servletResponse);
-        }
-        else {
+        } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
