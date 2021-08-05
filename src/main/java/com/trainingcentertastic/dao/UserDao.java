@@ -10,18 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDao extends AbstractDao<User> implements Dao<User> {
-
     private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE username = ? AND password = ?";
     private static final String CREATE = "INSERT INTO user (username, password, role) VALUE (?, ?, ?)";
-    private static final String UPDATE = "UPDATE user SET username = ?, password = ?, role = ? where id = ?";
-    private static final String GET_ALL = "SELECT * FROM user";
     private static final String TABLE_NAME = "user";
-    private static final String REMOVE_BY_ID = "DELETE FROM user WHERE id = ?";
-    private static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
     private static final String FIND_BY_ROLE = "SELECT * FROM user WHERE role = ?";
     private static final String GET_LIMIT_TEACHERS = "SELECT * FROM user WHERE role = ? LIMIT ?, ?";
     private static final String FIND_USER_BY_USERNAME = "SELECT * FROM user WHERE username = ?";
     private static final String FIND_COURSE_BY_COURSE_NAME = "SELECT * FROM user WHERE username IN (SELECT username FROM course_users WHERE course_name = ?) AND role = 'STUDENT'";
+    private static final String DELETE_FROM_USER_WHERE_USERNAME = "DELETE FROM user WHERE username = ?";
 
     UserDao(ProxyConnection connection) {
         super(connection);
@@ -37,34 +33,13 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     }
 
     @Override
-    protected void update(User item) throws DaoException {
-        Optional<User> userUpdate = getById(item.getId());
-        if(!userUpdate.isPresent()) {
-            throw new DaoException("User " + item.getId() + " not found");
-        }
-        executeUpdate(UPDATE, item.getUsername(), item.getPassword(), item.getRole().toString(), item.getId());
-    }
-
-
-    @Override
     protected String getTableName() {
         return TABLE_NAME;
-    }
-
-
-    @Override
-    public Optional<User> getById(Long id) throws DaoException {
-        return executeForSingleResult(FIND_BY_ID, new UserMapper(), id);
     }
 
     @Override
     public List<User> getAll() throws DaoException {
         return super.getAll();
-    }
-
-    @Override
-    public void removeById(Long id) throws DaoException {
-        executeUpdate(REMOVE_BY_ID, id);
     }
 
     public List<User> getUsersByRole(Role role) throws DaoException {
@@ -76,7 +51,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     }
 
 
-    public List<User> getLimitByRole(Role role,int offset, int noOfRecords) throws DaoException {
+    public List<User> getLimitByRole(Role role, int offset, int noOfRecords) throws DaoException {
         return executeQuery(GET_LIMIT_TEACHERS, new UserMapper(), role.toString(), offset, noOfRecords);
     }
 
@@ -86,5 +61,9 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
 
     public void addStudent(String username, String password) throws DaoException {
         create(new User(username, password, Role.STUDENT));
+    }
+
+    public void deleteUserByUsername(String username) throws DaoException {
+        executeUpdate(DELETE_FROM_USER_WHERE_USERNAME, username);
     }
 }

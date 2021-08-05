@@ -8,6 +8,7 @@ public class Course implements Identifiable {
     private Long id;
     private String name;
     private String requirement;
+    private String username;
 
     public Course() {
     }
@@ -18,9 +19,18 @@ public class Course implements Identifiable {
         this.requirement = requirement;
     }
 
-    public Course(String name, String requirement) {
+    public Course(String name, String requirement, String username) {
         this.name = name;
         this.requirement = requirement;
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRequirement() {

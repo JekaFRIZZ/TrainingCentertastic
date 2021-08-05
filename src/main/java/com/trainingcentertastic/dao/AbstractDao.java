@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
+public abstract class AbstractDao<T extends Identifiable> {
     private static final Logger LOGGER = Logger.getLogger(AbstractDao.class);
     private static final String SELECT_FROM = "SELECT * FROM ";
     private final ProxyConnection connection;
@@ -38,7 +38,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     private PreparedStatement createStatement(String query, Object... params) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
-        for(int i = 0; i < params.length; i++) {
+        for (int i = 0; i < params.length; i++) {
             statement.setObject(i + 1, params[i]);
         }
         LOGGER.debug("Statement " + statement);
@@ -53,10 +53,9 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     protected Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) throws DaoException {
         List<T> items = executeQuery(query, mapper, params);
-        if(items.size() == 1) {
+        if (items.size() == 1) {
             return Optional.of(items.get(0));
-        }
-        else if(items.size() > 1) {
+        } else if (items.size() > 1) {
             throw new IllegalArgumentException("More than one record");
         }
         return Optional.empty();
@@ -71,19 +70,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         }
     }
 
-    @Override
-    public void save(T item) throws DaoException {
-        if(item.getId() == null) {
-            create(item);
-        }
-        else {
-            update(item);
-        }
-    }
-
     protected abstract void create(T item) throws DaoException;
-
-    protected abstract void update(T item) throws DaoException;
 
     protected abstract String getTableName();
 }

@@ -16,6 +16,7 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
     private static final String UPDATE_REVIEW = "UPDATE homework SET review = ? WHERE id = ? AND username = ?";
     private static final String UPDATE_LINK = "UPDATE homework SET link = ? WHERE task_name = ? AND username = ?";
     private static final String GET_HOMEWORK_STUDENT = "SELECT * FROM homework WHERE task_name = ? AND username = ?";
+    private static final String TABLE_NAME = "homework";
 
     protected HomeworkDao(ProxyConnection connection) {
         super(connection);
@@ -27,23 +28,8 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
     }
 
     @Override
-    protected void update(Homework item) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     protected String getTableName() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Optional<Homework> getById(Long id) throws DaoException {
-        return Optional.empty();
-    }
-
-    @Override
-    public void removeById(Long id) throws DaoException {
-        throw new UnsupportedOperationException();
+        return TABLE_NAME;
     }
 
     public List<Homework> getByUsername(String username, String nameCourse) throws DaoException {
@@ -63,7 +49,7 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
     }
 
     public Optional<Homework> getByTaskName(String taskName, String username) throws DaoException {
-        return executeForSingleResult(GET_HOMEWORK_STUDENT,new HomeworkMapper() ,taskName, username);
+        return executeForSingleResult(GET_HOMEWORK_STUDENT, new HomeworkMapper(), taskName, username);
     }
 
     public void createHomework(String taskName, String username, String nameCourse) throws DaoException {

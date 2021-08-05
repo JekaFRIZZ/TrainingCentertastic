@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class CourseUsersDao extends AbstractDao<CourseUsers> implements Dao<CourseUsers> {
 
+    private static final String TABLE_NAME = "course_users";
     private static final String FIND_COURSE_BY_COURSE_NAME_AND_USERNAME = "SELECT * FROM course_users WHERE course_name = ? AND username = ?";
     private static final String CREATE_SUBMIT = "INSERT INTO course_users (course_name, username) VALUES (?,?)";
     private static final String GET_ALL_TEACHERS = "SELECT * FROM course_users WHERE username IN (SELECT username FROM user WHERE role = 'TEACHER') GROUP BY username";
@@ -20,27 +21,12 @@ public class CourseUsersDao extends AbstractDao<CourseUsers> implements Dao<Cour
 
     @Override
     protected void create(CourseUsers item) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void update(CourseUsers item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE_SUBMIT, item.getCourseName(), item.getUsername());
     }
 
     @Override
     protected String getTableName() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Optional<CourseUsers> getById(Long id) throws DaoException {
-        return Optional.empty();
-    }
-
-    @Override
-    public void removeById(Long id) throws DaoException {
-        throw new UnsupportedOperationException();
+        return TABLE_NAME;
     }
 
     public Optional<CourseUsers> getByNameCourseByUsername(String nameCourse, String username) throws DaoException {
@@ -49,7 +35,7 @@ public class CourseUsersDao extends AbstractDao<CourseUsers> implements Dao<Cour
     }
 
     public void createSubmit(String courseName, String username) throws DaoException {
-        executeUpdate(CREATE_SUBMIT, courseName, username);
+        create(new CourseUsers(courseName, username));
     }
 
     public List<CourseUsers> getAllTeachers() throws DaoException {

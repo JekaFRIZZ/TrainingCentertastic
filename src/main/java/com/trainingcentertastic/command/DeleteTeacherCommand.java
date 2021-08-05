@@ -27,7 +27,7 @@ public class DeleteTeacherCommand implements Command {
         Optional<User> teacher = userService.getUserByUsername(nameTeacher);
 
         if(teacher.isPresent()) {
-            userService.deleteUserByUsername(teacher.get().getId());
+            userService.deleteUserByUsername(nameTeacher);
             request.setAttribute("deleteMessage", "The teacher was removed");
         }
         else {

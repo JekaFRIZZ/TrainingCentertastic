@@ -14,12 +14,9 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
     private static final String UPDATE_REQUIREMENT = "UPDATE course SET requirement = ? WHERE name = ?";
     private static final String GET_COURSE_BY_USERNAME_LIMIT = "SELECT * FROM course WHERE name IN (SELECT course_name FROM course_users WHERE username = ?) LIMIT ?, ?";
     private static final String TABLE_NAME = "course";
-    private static final String CREATE = "INSERT INTO course (name, requirement) VALUES (?, ?)";
-
+    private static final String CREATE = "INSERT INTO course (name, requirement, username) VALUES (?, ?, ?)";
     private final String GET_LIMIT = "SELECT * FROM course LIMIT ?, ?";
-    private final String FIND_COURSE_BY_ID = "SELECT * FROM course WHERE id = ?";
     private final String FIND_COURSE_BY_NAME = "SELECT * FROM course WHERE name = ?";
-
 
     protected CourseDao(ProxyConnection connection) {
         super(connection);
@@ -27,27 +24,12 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
 
     @Override
     protected void create(Course item) throws DaoException {
-        executeUpdate(CREATE, item.getName(), item.getRequirement());
-    }
-
-    @Override
-    protected void update(Course item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE, item.getName(), item.getRequirement(), item.getUsername());
     }
 
     @Override
     protected String getTableName() {
         return TABLE_NAME;
-    }
-
-    @Override
-    public Optional<Course> getById(Long id) throws DaoException {
-        return executeForSingleResult(FIND_COURSE_BY_ID, new CourseMapper(), id);
-    }
-
-    @Override
-    public void removeById(Long id) throws DaoException {
-        throw new UnsupportedOperationException();
     }
 
     public List<Course> getAll() throws DaoException {
@@ -74,7 +56,7 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
         return executeQuery(GET_COURSE_BY_USERNAME_LIMIT, new CourseMapper(), username, offset, recordsPerPage);
     }
 
-    public void createCourse(String courseName, String courseRequirement) throws DaoException {
-        create(new Course(courseName, courseRequirement));
+    public void createCourse(String courseName, String courseRequirement, String username) throws DaoException {
+        create(new Course(courseName, courseRequirement, username));
     }
 }

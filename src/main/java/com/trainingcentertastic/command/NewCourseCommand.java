@@ -18,13 +18,14 @@ public class NewCourseCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         String courseName = request.getParameter("newCourseName");
         String courseRequirement = request.getParameter("newCourseRequirement");
-
-        if (courseName == null || courseRequirement == null) {
+        String username = request.getParameter("teachers");
+        System.out.println(username);
+        if (courseName == null || courseRequirement == null || username == null) {
             return CommandResult.forward(PAGE);
         }
 
         try {
-            courseService.createCourse(courseName, courseRequirement);
+            courseService.createCourse(courseName, courseRequirement, username);
             request.setAttribute("successCreateCourse", "Course created!");
         } catch (ServiceException e) {
             request.setAttribute("notUniqueCourseName", "Course name is not unique");

@@ -20,23 +20,8 @@ public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
     }
 
     @Override
-    public Optional<Task> getById(Long id) throws DaoException {
-        return Optional.empty();
-    }
-
-    @Override
-    public void save(Task items) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     protected void create(Task item) throws DaoException {
         executeUpdate(CREATE, item.getTaskName(), item.getCourseName(), item.getAssignment());
-    }
-
-    @Override
-    protected void update(Task item) throws DaoException {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -47,11 +32,6 @@ public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
     @Override
     public List<Task> getAll() throws DaoException {
         return super.getAll();
-    }
-
-    @Override
-    public void removeById(Long id) throws DaoException {
-        throw new UnsupportedOperationException();
     }
 
     public List<Task> getTasksByCourseName(String courseName) throws DaoException {

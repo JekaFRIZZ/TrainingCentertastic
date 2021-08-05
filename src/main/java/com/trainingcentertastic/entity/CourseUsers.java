@@ -16,6 +16,11 @@ public class CourseUsers implements Identifiable {
         this.username = username;
     }
 
+    public CourseUsers(String courseName, String username) {
+        this.courseName = courseName;
+        this.username = username;
+    }
+
     @Override
     public Long getId() {
         return id;

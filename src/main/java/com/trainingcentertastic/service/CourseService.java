@@ -35,15 +35,6 @@ public class CourseService {
         }
     }
 
-    public Optional<Course> getCourseById(Long id) throws ServiceException {
-        try {
-            return courseDao.getById(id);
-        } catch (DaoException e) {
-            LOGGER.debug(this.getClass() + e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
     public Optional<Course> getCourseByName(String name) throws ServiceException {
         try {
             return courseDao.getByName(name);
@@ -80,9 +71,9 @@ public class CourseService {
         }
     }
 
-    public void createCourse(String courseName, String courseRequirement) throws ServiceException {
+    public void createCourse(String courseName, String courseRequirement, String username) throws ServiceException {
         try {
-            courseDao.createCourse(courseName, courseRequirement);
+            courseDao.createCourse(courseName, courseRequirement, username);
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);

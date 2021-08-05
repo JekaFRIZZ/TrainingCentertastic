@@ -57,7 +57,7 @@ public class UserService {
 
     public List<User> getAllByRole(Role role) throws ServiceException {
         try {
-            return  userDao.getUsersByRole(role);
+            return userDao.getUsersByRole(role);
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
@@ -73,9 +73,9 @@ public class UserService {
         }
     }
 
-    public void deleteUserByUsername(Long id) throws ServiceException {
+    public void deleteUserByUsername(String username) throws ServiceException {
         try {
-            userDao.removeById(id);
+            userDao.deleteUserByUsername(username);
         } catch (DaoException e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
