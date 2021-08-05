@@ -28,6 +28,12 @@ public class Homework implements Identifiable {
         this.review = review;
     }
 
+    public Homework(String taskName, String username, String courseName) {
+        this.taskName = taskName;
+        this.username = username;
+        this.courseName = courseName;
+    }
+
     public String getTaskName() {
         return taskName;
     }

@@ -61,4 +61,13 @@ public class HomeworkService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void createHomework(String taskName, String username, String nameCourse) throws ServiceException {
+        try {
+            homeworkDao.createHomework(taskName, username, nameCourse);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

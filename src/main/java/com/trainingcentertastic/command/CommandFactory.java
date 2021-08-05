@@ -89,9 +89,11 @@ public class CommandFactory {
             case "registration":
                 return new RegistrationCommand(new UserService(helper.createUserDao()));
             case "newCoursePage":
-                return new ShowPageCommand("WEB-INF/view/newCourse.jsp");
+                return new NewCoursePageCommand(new UserService(helper.createUserDao()));
             case "newCourse":
                 return new NewCourseCommand(new CourseService(helper.createCourseDao()));
+            case "createTask":
+                return new CreateTaskCommand(new TaskService(helper.createTaskDao()), new HomeworkService(helper.createHomeworkDao()));
             default:
                 LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);

@@ -18,6 +18,12 @@ public class Task implements Identifiable {
         this.assignment = assignment;
     }
 
+    public Task(String taskName, String courseName, String assignment) {
+        this.taskName = taskName;
+        this.courseName = courseName;
+        this.assignment = assignment;
+    }
+
     public Long getId() {
         return id;
     }

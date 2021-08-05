@@ -45,6 +45,7 @@ public class AccessFilter implements Filter {
         ACCESS_COMMANDS.put("deleteTeacher", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("newCoursePage", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("newCourse", Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put("createTask", Arrays.asList(Role.TEACHER));
     }
 
     @Override

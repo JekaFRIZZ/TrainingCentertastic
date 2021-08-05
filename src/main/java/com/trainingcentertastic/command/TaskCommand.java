@@ -34,6 +34,10 @@ public class TaskCommand implements Command {
             taskName = (String) session.getAttribute("taskName");
             nameCourse = (String) session.getAttribute("nameCourse");
         }
+        try {
+            homeworkService.createHomework(taskName, username, nameCourse);
+        } catch (ServiceException e) {
+        }
 
         Task task = taskService.getTaskByName(taskName, nameCourse).get();
         Homework homework = homeworkService.getHomeworkStudent(taskName, username).get();

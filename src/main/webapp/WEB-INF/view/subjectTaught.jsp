@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
@@ -11,27 +11,34 @@
     <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
-    <jsp:include page="fragments/header.jsp"/>
-    <main>
-        <table class="table-all">
+<jsp:include page="fragments/header.jsp"/>
+<main>
+    <table class="table-all">
+        <tr>
+            <td>
+                <fmt:message key="th.name"/>
+            </td>
+        </tr>
+        <c:forEach var="student" items="${students}">
             <tr>
                 <td>
-                    <fmt:message key="th.name"/>
+                    <form action="${pageContext.request.contextPath}/controller?command=taskViewer" method="post">
+                        <input type="hidden" name="username" value="${student.username}">
+                        <input type="hidden" name="nameCourse" value="${nameCourse}">
+                        <lable>${student.username}</lable>
+                        <button><fmt:message key="button.go"/></button>
+                    </form>
                 </td>
             </tr>
-            <c:forEach var="student" items="${students}">
-                <tr>
-                    <td>
-                        <form action="${pageContext.request.contextPath}/controller?command=taskViewer" method="post">
-                            <input type="hidden" name="username" value="${student.username}">
-                            <input type="hidden" name="nameCourse" value="${nameCourse}">
-                            <lable>${student.username}</lable>
-                            <button><fmt:message key="button.go"/></button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </main>
+        </c:forEach>
+        <form action="${pageContext.request.contextPath}/controller?command=createTask" method="post">
+            <input type="hidden" name="nameCourse" value="${nameCourse}">
+            <input type="text" placeholder="<fmt:message key="placeholder.enter-task-name"/>" name="taskName" required>
+            <input type="text" placeholder="<fmt:message key="placeholder.enter-task-assignment"/>" name="assignment"
+                   required>
+            <button><fmt:message key="button.create"/></button>
+        </form>
+    </table>
+</main>
 </body>
 </html>

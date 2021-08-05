@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
 
+    private static final String CREATE = "INSERT INTO task (task_name, course_name, assignment) VALUES (?, ?, ?)";
     private static final String FIND_TASKS_BY_COURSE_NAME = "SELECT * FROM task WHERE course_name = ?";
     private static final String FIND_TASK_BY_TACK_NAME_AND_COURSE_NAME = "SELECT * FROM task WHERE task_name = ? AND  course_name = ?";
     private static final String TABLE_NAME = "task";
@@ -30,7 +31,7 @@ public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
 
     @Override
     protected void create(Task item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE, item.getTaskName(), item.getCourseName(), item.getAssignment());
     }
 
     @Override
@@ -59,5 +60,9 @@ public class TaskDao extends AbstractDao<Task> implements Dao<Task> {
 
     public Optional<Task> getByName(String taskName, String nameCourse) throws DaoException {
         return executeForSingleResult(FIND_TASK_BY_TACK_NAME_AND_COURSE_NAME, new TaskMapper(), taskName, nameCourse);
+    }
+
+    public void createTask(String taskName, String nameCourse, String assignment) throws DaoException {
+        create(new Task(taskName, nameCourse, assignment));
     }
 }

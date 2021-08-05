@@ -34,4 +34,13 @@ public class TaskService {
             throw new ServiceException(e.getMessage(),e);
         }
     }
+
+    public void createTask(String taskName, String nameCourse, String assignment) throws ServiceException {
+        try {
+            taskDao.createTask(taskName, nameCourse, assignment);
+        } catch (DaoException e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(),e);
+        }
+    }
 }

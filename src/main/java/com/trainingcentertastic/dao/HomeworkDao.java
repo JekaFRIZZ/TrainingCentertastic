@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> {
 
+    private static final String CREATE = "INSERT INTO homework (task_name, course_name, username) VALUES ( ?, ?, ?)";
     private static final String FIND_HOMEWORK_BY_USERNAME = "SELECT * FROM homework WHERE username = ? AND course_name = ?";
     private static final String UPDATE_MARK = "UPDATE homework SET mark = ? WHERE id = ? AND username = ?";
     private static final String UPDATE_REVIEW = "UPDATE homework SET review = ? WHERE id = ? AND username = ?";
@@ -22,7 +23,7 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
 
     @Override
     protected void create(Homework item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE, item.getTaskName(), item.getCourseName(), item.getUsername());
     }
 
     @Override
@@ -63,5 +64,9 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
 
     public Optional<Homework> getByTaskName(String taskName, String username) throws DaoException {
         return executeForSingleResult(GET_HOMEWORK_STUDENT,new HomeworkMapper() ,taskName, username);
+    }
+
+    public void createHomework(String taskName, String username, String nameCourse) throws DaoException {
+        create(new Homework(taskName, username, nameCourse));
     }
 }
