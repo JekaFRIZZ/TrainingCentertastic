@@ -1,7 +1,6 @@
 package com.trainingcentertastic.command;
 
-import com.trainingcentertastic.connetion.ConnectionPool;
-import com.trainingcentertastic.dao.DaoHelper;
+import com.trainingcentertastic.dao.DaoHelperFactory;
 import com.trainingcentertastic.parser.RequirementParser;
 import com.trainingcentertastic.service.*;
 import org.apache.log4j.Logger;
@@ -30,24 +29,21 @@ public class CommandFactory {
     private static final String CHANGE_LINK = "changeLink";
     private static final String TEACHERS = "teachers";
     private static final String FIND_TEACHER = "findTeacher";
-
-    private ConnectionPool pool;
-    private DaoHelper helper;
-
-    public CommandFactory() {
-        pool = ConnectionPool.getInstance();
-        helper = new DaoHelper(pool.getConnection());
-    }
+    private static final String REGISTRATION_PAGE = "registrationPage";
+    private static final String REGISTRATION = "registration";
+    private static final String NEW_COURSE_PAGE = "newCoursePage";
+    private static final String NEW_COURSE = "newCourse";
+    private static final String CREATE_TASK = "createTask";
 
     public Command create(String type) {
         LOGGER.debug("command " + type);
         switch (type) {
             case LOGIN:
-                return new LoginCommand(new UserService(helper.createUserDao()));
+                return new LoginCommand(new UserService(new DaoHelperFactory()));
             case MAIN_PAGE:
                 return new ShowPageCommand("WEB-INF/view/main.jsp");
             case COURSES:
-                return new CoursesCommand(new CourseService(helper.createCourseDao()));
+                return new CoursesCommand(new CourseService(new DaoHelperFactory()));
             case MY_PROFILE:
                 return new ShowPageCommand("WEB-INF/view/myProfile.jsp");
             case LOGOUT:
@@ -55,45 +51,45 @@ public class CommandFactory {
             case CHANGE_LANGUAGE:
                 return new ChangeLanguageCommand();
             case STUDENTS:
-                return new StudentsCommand(new UserService(helper.createUserDao()));
+                return new StudentsCommand(new UserService(new DaoHelperFactory()));
             case FIND_STUDENT:
-                return new FindStudentCommand(new UserService(helper.createUserDao()));
+                return new FindStudentCommand(new UserService(new DaoHelperFactory()));
             case COURSE:
-                return new CourseCommand(new CourseService(helper.createCourseDao()), new UserService(helper.createUserDao()), new RequirementParser());
+                return new CourseCommand(new CourseService(new DaoHelperFactory()), new UserService(new DaoHelperFactory()), new RequirementParser());
             case MY_PROFILE_STUDENT:
-                return new MyProfileStudentCommand(new CourseService(helper.createCourseDao()));
+                return new MyProfileStudentCommand(new CourseService(new DaoHelperFactory()));
             case NEW_REQUIREMENT:
-                return new NewRequirementCommand(new CourseService(helper.createCourseDao()), new UserService(helper.createUserDao()), new RequirementParser());
+                return new NewRequirementCommand(new CourseService(new DaoHelperFactory()), new UserService(new DaoHelperFactory()), new RequirementParser());
             case SUBMIT_STUDENT:
-                return new SubmitStudentCommand(new CourseUsersService(helper.createCourseUsersDao()));
+                return new SubmitStudentCommand(new CourseUsersService(new DaoHelperFactory()));
             case STUDY_COURSE:
-                return new StudyCourseCommand(new TaskService(helper.createTaskDao()));
+                return new StudyCourseCommand(new TaskService(new DaoHelperFactory()));
             case TASK:
-                return new TaskCommand(new TaskService(helper.createTaskDao()), new HomeworkService(helper.createHomeworkDao()));
+                return new TaskCommand(new TaskService(new DaoHelperFactory()), new HomeworkService(new DaoHelperFactory()));
             case MY_COURSES_TEACHER:
-                return new MyCoursesTeacherCommand(new CourseService(helper.createCourseDao()));
+                return new MyCoursesTeacherCommand(new CourseService(new DaoHelperFactory()));
             case SUBJECT_TAUGHT:
-                return new SubjectTaughtCommand(new UserService(helper.createUserDao()));
+                return new SubjectTaughtCommand(new UserService(new DaoHelperFactory()));
             case TASK_VIEWER:
-                return new HomeworkCommand(new HomeworkService(helper.createHomeworkDao()), new TaskService(helper.createTaskDao()));
+                return new HomeworkCommand(new HomeworkService(new DaoHelperFactory()), new TaskService(new DaoHelperFactory()));
             case CHANGE_LINK:
-                return new ChangeLinkCommand(new HomeworkService(helper.createHomeworkDao()));
+                return new ChangeLinkCommand(new HomeworkService(new DaoHelperFactory()));
             case TEACHERS:
-                return new TeachersCommand(new UserService(helper.createUserDao()));
+                return new TeachersCommand(new UserService(new DaoHelperFactory()));
             case FIND_TEACHER:
-                return new FindTeacherCommand(new UserService(helper.createUserDao()));
+                return new FindTeacherCommand(new UserService(new DaoHelperFactory()));
             case DELETE_TEACHER:
-                return new DeleteTeacherCommand(new UserService(helper.createUserDao()));
-            case "registrationPage":
+                return new DeleteTeacherCommand(new UserService(new DaoHelperFactory()));
+            case REGISTRATION_PAGE:
                 return new ShowPageCommand("WEB-INF/view/registration.jsp");
-            case "registration":
-                return new RegistrationCommand(new UserService(helper.createUserDao()));
-            case "newCoursePage":
-                return new NewCoursePageCommand(new UserService(helper.createUserDao()));
-            case "newCourse":
-                return new NewCourseCommand(new CourseService(helper.createCourseDao()));
-            case "createTask":
-                return new CreateTaskCommand(new TaskService(helper.createTaskDao()), new HomeworkService(helper.createHomeworkDao()));
+            case REGISTRATION:
+                return new RegistrationCommand(new UserService(new DaoHelperFactory()));
+            case NEW_COURSE_PAGE:
+                return new NewCoursePageCommand(new UserService(new DaoHelperFactory()));
+            case NEW_COURSE:
+                return new NewCourseCommand(new CourseService(new DaoHelperFactory()));
+            case CREATE_TASK:
+                return new CreateTaskCommand(new TaskService(new DaoHelperFactory()), new HomeworkService(new DaoHelperFactory()));
             default:
                 LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);

@@ -2,8 +2,10 @@ package com.trainingcentertastic.connetion;
 
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
@@ -74,21 +76,5 @@ public class ConnectionPool {
             CONNECTIONS_LOCK.unlock();
         }
         LOGGER.info("Connection pool has been return");
-    }
-
-    public void closeAllConnections() throws ConnectionException {
-        for (int i = 0; i < poolSize; i++) {
-            try {
-                ProxyConnection connection = availableConnections.poll();
-                connection.close();
-            } catch (SQLException exception) {
-                throw new ConnectionException(exception.getMessage(), exception);
-            }
-        }
-        try {
-            ConnectionPoolFactory.deregisterDriver();
-        } catch (SQLException exception) {
-            throw new ConnectionException(exception.getMessage(), exception);
-        }
     }
 }

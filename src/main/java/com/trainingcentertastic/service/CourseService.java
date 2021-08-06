@@ -1,8 +1,9 @@
 package com.trainingcentertastic.service;
 
 import com.trainingcentertastic.dao.CourseDao;
+import com.trainingcentertastic.dao.DaoHelper;
+import com.trainingcentertastic.dao.DaoHelperFactory;
 import com.trainingcentertastic.entity.Course;
-import com.trainingcentertastic.exception.DaoException;
 import com.trainingcentertastic.exception.ServiceException;
 import org.apache.log4j.Logger;
 
@@ -11,70 +12,77 @@ import java.util.Optional;
 
 public class CourseService {
     private static final Logger LOGGER = Logger.getLogger(CourseService.class);
-    private final CourseDao courseDao;
+    private DaoHelperFactory daoHelperFactory;
 
-    public CourseService(CourseDao courseDao) {
-        this.courseDao = courseDao;
+    public CourseService(DaoHelperFactory daoHelperFactory) {
+        this.daoHelperFactory = daoHelperFactory;
     }
 
     public List<Course> getAll() throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             return courseDao.getAll();
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public List<Course> getLimit(int offset, int noOfRecords) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             return courseDao.getLimit(offset, noOfRecords);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public Optional<Course> getCourseByName(String name) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             return courseDao.getByName(name);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public List<Course> getCoursesByUsername(String username) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             return courseDao.getStudentCoursesByUsername(username);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public void updateRequirement(String requirement, String name) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             courseDao.updateRequirement(requirement, name);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public List<Course> getLimitByUsername(int offset, int recordsPerPage, String username) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             return courseDao.getLimitByUsername(offset, recordsPerPage, username);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     public void createCourse(String courseName, String courseRequirement, String username) throws ServiceException {
-        try {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
             courseDao.createCourse(courseName, courseRequirement, username);
-        } catch (DaoException e) {
+        } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

@@ -1,5 +1,6 @@
 package com.trainingcentertastic.dao;
 
+import com.trainingcentertastic.connetion.ConnectionPool;
 import com.trainingcentertastic.connetion.ProxyConnection;
 import com.trainingcentertastic.exception.DaoException;
 
@@ -8,22 +9,29 @@ import java.sql.SQLException;
 public class DaoHelper implements AutoCloseable {
     private final ProxyConnection connection;
 
-    public DaoHelper(ProxyConnection connection) {
-        this.connection = connection;
+    public DaoHelper(ConnectionPool pool) {
+        this.connection = pool.getConnection();
     }
+
     public UserDao createUserDao() {
         return new UserDao(connection);
     }
+
     public CourseDao createCourseDao() {
         return new CourseDao(connection);
     }
+
     public TaskDao createTaskDao() {
         return new TaskDao(connection);
     }
+
     public HomeworkDao createHomeworkDao() {
         return new HomeworkDao(connection);
     }
-    public CourseUsersDao createCourseUsersDao() {return new CourseUsersDao(connection);}
+
+    public CourseUsersDao createCourseUsersDao() {
+        return new CourseUsersDao(connection);
+    }
 
     @Override
     public void close() throws Exception {
@@ -63,7 +71,7 @@ public class DaoHelper implements AutoCloseable {
     public void startTransaction() throws DaoException {
         try {
             connection.setAutoCommit(false);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DaoException(e);
         }
     }
