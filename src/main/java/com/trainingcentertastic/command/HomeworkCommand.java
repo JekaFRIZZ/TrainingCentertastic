@@ -26,10 +26,10 @@ public class HomeworkCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
 
-        String username = request.getParameter("username");
+        String studentName = request.getParameter("studentName");
         String nameCourse = request.getParameter("nameCourse");
-        if (username == null || nameCourse == null) {
-            username = (String) session.getAttribute("username");
+        if (studentName == null || nameCourse == null) {
+            studentName = (String) session.getAttribute("studentName");
             nameCourse = (String) session.getAttribute("nameCourse");
         }
 
@@ -38,7 +38,7 @@ public class HomeworkCommand implements Command {
             String stringMark = request.getParameter("mark");
             if (MarkValidator.checkMark(stringMark)) {
                 int mark = Integer.parseInt(stringMark);
-                homeworkService.updateMark(id, username, mark);
+                homeworkService.updateMark(id, studentName, mark);
             } else {
                 request.setAttribute("incorrectMark", "Incorrect mark");
             }
@@ -47,13 +47,13 @@ public class HomeworkCommand implements Command {
         if (request.getParameter("review") != null) {
             Long id = Long.parseLong(request.getParameter("taskId"));
             String review = request.getParameter("review");
-            homeworkService.updateReview(id, username, review);
+            homeworkService.updateReview(id, studentName, review);
         }
 
-        List<Homework> homeworks = homeworkService.getAllHomeworksStudentByUsername(username, nameCourse);
+        List<Homework> homeworks = homeworkService.getAllHomeworksStudentByUsername(studentName, nameCourse);
 
         session.setAttribute("homeworks", homeworks);
-        session.setAttribute("username", username);
+        session.setAttribute("studentName", studentName);
         session.setAttribute("nameCourse", nameCourse);
 
         return CommandResult.forward(PAGE);

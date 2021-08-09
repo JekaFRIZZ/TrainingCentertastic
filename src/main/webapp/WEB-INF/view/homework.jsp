@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
@@ -28,7 +28,7 @@
                 <td><a href="${homework.link}">${homework.link}</a></td>
                 <td>
                     <form action="${pageContext.request.contextPath}/controller?command=taskViewer" method="post">
-                        <input type="hidden" name="username" value="${username}">
+                        <input type="hidden" name="studentName" value="${studentName}">
                         <input type="hidden" name="nameCourse" value="${nameCourse}">
                         <input type="hidden" name="taskId" value="${homework.id}">
                         <input type="number" name="mark" value="${homework.mark}" min="0" max="10" step="1">
@@ -40,7 +40,7 @@
                         <input type="hidden" name="username" value="${username}">
                         <input type="hidden" name="nameCourse" value="${nameCourse}">
                         <input type="hidden" name="taskId" value="${homework.id}">
-                        <input type="text" value="${homework.review}" name="review">
+                        <input type="text" value="<c:out value="${homework.review}" escapeXml="true"/>" name="review">
                         <button type="submit"><fmt:message key="button.comment"/></button>
                     </form>
                 </td>
