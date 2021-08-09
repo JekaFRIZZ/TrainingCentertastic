@@ -1,45 +1,31 @@
 package com.trainingcentertastic.connetion;
 
+import com.mysql.cj.jdbc.Driver;
+import com.trainingcentertastic.exception.DaoException;
+
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConnectionPoolFactory {
 
-    private static Driver driver;
     private static final String MYSQL_URL = "jdbc:mysql://localhost:3306/training_centertastic_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PASSWORD = "admin";
-    private static final int POOL_SIZE = 6;
 
-    ConnectionPoolFactory() {
-    }
-
-    ConnectionPool createPool() throws ConnectionException {
+    public ConnectionPoolFactory() throws DaoException {
         try {
-            driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
-            List<ProxyConnection> connections = createConnections();
-            return new ConnectionPool(POOL_SIZE, connections);
-        } catch (SQLException exception) {
-            throw new ConnectionException(exception.getMessage(), exception);
+            DriverManager.registerDriver(new Driver());
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
         }
     }
 
-    private List createConnections() throws SQLException {
-        List<ProxyConnection> connections = new ArrayList<>();
-        for (int i = 0; i < POOL_SIZE; i++) {
-            Connection connection = DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
-            ProxyConnection proxyConnection = new ProxyConnection(connection);
-            connections.add(proxyConnection);
+    Connection create() throws DaoException {
+        try {
+            return DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
         }
-        return connections;
-    }
-
-    static void deregisterDriver() throws SQLException {
-        DriverManager.deregisterDriver(driver);
     }
 }

@@ -1,15 +1,15 @@
 package com.trainingcentertastic.connetion;
 
-public class ConnectionException extends RuntimeException {
-    public ConnectionException(String message) {
+class ConnectionPoolException extends RuntimeException {
+    public ConnectionPoolException(String message) {
         super(message);
     }
 
-    public ConnectionException(String message, Throwable cause) {
+    public ConnectionPoolException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ConnectionException(Throwable cause) {
+    public ConnectionPoolException(Throwable cause) {
         super(cause);
     }
 }

@@ -1,13 +1,14 @@
 package com.trainingcentertastic.connetion;
 
+import com.trainingcentertastic.exception.DaoException;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -16,65 +17,87 @@ import java.util.stream.Collectors;
 public class ConnectionPool {
     private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
-    private BlockingQueue<ProxyConnection> availableConnections;
-    private Set<ProxyConnection> connectionsInUse;
-    private int poolSize;
+    private static final int POOL_SIZE = 6;
 
-    private static final AtomicReference<ConnectionPool> INSTANCE = new AtomicReference<>();
-    private static final Lock INSTANCE_LOCK = new ReentrantLock();
-    private static final Lock CONNECTIONS_LOCK = new ReentrantLock();
+    private final Semaphore connectionSemaphore = new Semaphore(POOL_SIZE);
+    private final Queue<ProxyConnection> availableConnections;
+    private final Queue<ProxyConnection> connectionsInUse;
+    private final ConnectionPoolFactory connectionFactory;
 
-    ConnectionPool(int poolSize, List<ProxyConnection> connections) {
-        this.poolSize = poolSize;
-        this.connectionsInUse = new HashSet<>();
-        this.availableConnections = new ArrayBlockingQueue<>(poolSize);
-        List<ProxyConnection> updatedConnections = connections.stream()
-                .peek(connection -> connection.setConnectionPool(this))
-                .collect(Collectors.toList());
-        availableConnections.addAll(updatedConnections);
+    private final static AtomicReference<ConnectionPool> INSTANCE = new AtomicReference<>();
+    private final static Lock LOCK = new ReentrantLock();
+
+    private ConnectionPool() throws DaoException {
+        connectionFactory = new ConnectionPoolFactory();
+        connectionsInUse = new ArrayDeque<>();
+        availableConnections = new ArrayDeque<>();
+        createConnections();
     }
 
-    public static ConnectionPool getInstance() throws ConnectionException {
-        if (INSTANCE.get() == null) {
+    private void createConnections() throws DaoException {
+        for(int i = 0; i < POOL_SIZE; i++) {
+            Connection connection = connectionFactory.create();
+            ProxyConnection proxyConnection = new ProxyConnection(connection, this);
+            availableConnections.add(proxyConnection);
+        }
+    }
+
+    public static ConnectionPool getInstance() {
+        ConnectionPool methodInstance = INSTANCE.get();
+        if (methodInstance == null) {
             try {
-                INSTANCE_LOCK.lock();
-                if (INSTANCE.get() == null) {
-                    ConnectionPoolFactory factory = new ConnectionPoolFactory();
-                    ConnectionPool connectionPool = factory.createPool();
+                LOCK.lock();
+                methodInstance = INSTANCE.get();
+                if (methodInstance == null) {
+                    ConnectionPool connectionPool = new ConnectionPool();
                     INSTANCE.getAndSet(connectionPool);
                 }
+            } catch (DaoException e) {
+                throw new ConnectionPoolException(e.getMessage(), e);
             } finally {
-                INSTANCE_LOCK.unlock();
+                LOCK.unlock();
             }
         }
         return INSTANCE.get();
     }
 
     public ProxyConnection getConnection() {
-        ProxyConnection connection = null;
-        CONNECTIONS_LOCK.lock();
         try {
-            connection = availableConnections.remove();
+            connectionSemaphore.acquire();
+            LOCK.lock();
+            ProxyConnection connection = availableConnections.poll();
             connectionsInUse.add(connection);
-        } catch (NoSuchElementException exception) {
-            throw new ConnectionException(exception.getMessage(), exception);
+            LOGGER.info("Connection has been taken");
+            return connection;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e.getMessage(), e);
         } finally {
-            CONNECTIONS_LOCK.unlock();
+            LOCK.unlock();
         }
-        LOGGER.info("Connection has been taken");
-        return connection;
     }
 
     public void returnConnection(ProxyConnection proxyConnection) {
-        CONNECTIONS_LOCK.lock();
         try {
+        LOCK.lock();
             if (connectionsInUse.contains(proxyConnection)) {
-                connectionsInUse.remove(proxyConnection);
                 availableConnections.offer(proxyConnection);
+                connectionsInUse.remove(proxyConnection);
+                connectionSemaphore.release();
             }
         } finally {
-            CONNECTIONS_LOCK.unlock();
+            LOCK.unlock();
         }
         LOGGER.info("Connection pool has been return");
+    }
+
+    public void closeAllConnection() {
+        for(ProxyConnection proxyConnection : connectionsInUse){
+            Connection connection = proxyConnection.getConnection();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new ConnectionPoolException(e.getMessage(), e);
+            }
+        }
     }
 }

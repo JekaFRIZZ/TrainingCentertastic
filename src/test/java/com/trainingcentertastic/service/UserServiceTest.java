@@ -32,7 +32,7 @@ public class UserServiceTest {
         userMock = Mockito.mock(User.class);
         when(daoHelperFactoryMock.create()).thenReturn(daoHelperMock);
         when(daoHelperMock.createUserDao()).thenReturn(userDaoMock);
-        userService = new UserService(userDaoMock);
+        userService = new UserService(daoHelperFactoryMock);
     }
 
     @Test

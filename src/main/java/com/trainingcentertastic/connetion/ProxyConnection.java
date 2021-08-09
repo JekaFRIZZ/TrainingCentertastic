@@ -9,12 +9,13 @@ public class ProxyConnection implements Connection {
     private Connection connection;
     private ConnectionPool connectionPool;
 
-    ProxyConnection(Connection connection) {
+    ProxyConnection(Connection connection, ConnectionPool connectionPool) {
         this.connection = connection;
+        this.connectionPool = connectionPool;
     }
 
-    void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public Connection getConnection() {
+        return connection;
     }
 
     @Override

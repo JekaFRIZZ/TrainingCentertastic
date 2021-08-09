@@ -3,6 +3,7 @@ package com.trainingcentertastic.controller;
 import com.trainingcentertastic.command.Command;
 import com.trainingcentertastic.command.CommandFactory;
 import com.trainingcentertastic.command.CommandResult;
+import com.trainingcentertastic.connetion.ConnectionPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +17,18 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            process(request, response);
+        process(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            process(request, response);
+        process(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        connectionPool.closeAllConnection();
     }
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
