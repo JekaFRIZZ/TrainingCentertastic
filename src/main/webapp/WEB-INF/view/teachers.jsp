@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
-<fmt:message key="placeholder.enterUsername" var="enterUsername"/>
 <fmt:message key="button.find" var="find"/>
 <fmt:message key="lable.findTeacher" var="findTeacher"/>
 <fmt:message key="title.students" var="heading"/>
@@ -25,7 +24,7 @@
 
             <c:forEach var="teacher" items="${teachers}">
                 <tr>
-                    <td>${teacher.username}</td>
+                    <td><c:out value="${teacher.username}"/></td>
                 </tr>
             </c:forEach>
         </table>
@@ -37,11 +36,12 @@
             <input type="hidden" name="command" value="findTeacher"/>
 
             <label for="nameTeacher"><b>${findTeacher}</b></label>
-            <input type="text" placeholder="${enterUsername}" name="nameTeacher" required/><br/>
+            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" name="nameTeacher"
+                   required/><br/>
 
             <button type="submit">${find}</button>
             <c:if test="${notExist != null}">
-                <br/>${notExist}
+                <br/><c:out value="${notExist}"/>
             </c:if>
         </form>
         <c:if test="${foundTeacher != null}">
@@ -69,11 +69,33 @@
             <input type="hidden" name="command" value="deleteTeacher"/>
 
             <label for="nameTeacher"><b><fmt:message key="lable.deleteTeacher"/></b></label>
-            <input type="text" placeholder="${enterUsername}" name="nameTeacher" required/><br/>
+            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="nameTeacher"
+                   name="nameTeacher" required/><br/>
 
             <button type="submit"><fmt:message key="button.delete"/></button>
             <c:if test="${deleteMessage != null}">
-                ${deleteMessage}
+                <c:out value="${deleteMessage}"/>
+            </c:if>
+        </form>
+
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="createTeacher"/>
+
+            <label><b><fmt:message key="lable.createdTeacher"/></b></label></br>
+            <label for="createNameTeacher"><b><fmt:message key="lable.username"/></b></label>
+            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="createNameTeacher"
+                   name="nameTeacher" required/><br/>
+
+            <label for="createPasswordTeacher"><b><fmt:message key="lable.password"/></b></label>
+            <input type="text" placeholder="<fmt:message key="placeholder.enter-password"/>" id="createPasswordTeacher"
+                   name="passwordTeacher" required/><br/>
+
+            <button type="submit"><fmt:message key="button.create"/></button>
+            <c:if test="${requestScope.successCreateTeacher != null}">
+                <c:out value="${requestScope.successCreateTeacher}"/>
+            </c:if>
+            <c:if test="${requestScope.unSuccessCreateTeacher != null}">
+                <c:out value="${requestScope.unSuccessCreateTeacher}"/>
             </c:if>
         </form>
     </nav>

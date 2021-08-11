@@ -108,4 +108,14 @@ public class UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void addTeacher(String username, String password) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            userDao.addTeacher(username, password);
+        } catch (Exception e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

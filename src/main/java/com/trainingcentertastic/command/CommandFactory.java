@@ -34,6 +34,7 @@ public class CommandFactory {
     private static final String NEW_COURSE_PAGE = "newCoursePage";
     private static final String NEW_COURSE = "newCourse";
     private static final String CREATE_TASK = "createTask";
+    private static final String CREATE_TEACHER = "createTeacher";
 
     public Command create(String type) {
         LOGGER.debug("command " + type);
@@ -90,6 +91,8 @@ public class CommandFactory {
                 return new NewCourseCommand(new CourseService(new DaoHelperFactory()), new UserService(new DaoHelperFactory()));
             case CREATE_TASK:
                 return new CreateTaskCommand(new TaskService(new DaoHelperFactory()), new HomeworkService(new DaoHelperFactory()));
+            case CREATE_TEACHER:
+                return new CreateTeacherCommand(new UserService(new DaoHelperFactory()));
             default:
                 LOGGER.debug(UNKNOWN_TYPE_OF_COMMAND + type);
                 throw new IllegalArgumentException(UNKNOWN_TYPE_OF_COMMAND + type);

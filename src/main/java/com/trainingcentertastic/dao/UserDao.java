@@ -71,4 +71,8 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     public Optional<User> getTeacherByUsername(String username) throws DaoException {
         return executeForSingleResult(GET_TEACHER, new UserMapper(), username);
     }
+
+    public void addTeacher(String username, String password) throws DaoException {
+        create(new User(username, password, Role.TEACHER));
+    }
 }

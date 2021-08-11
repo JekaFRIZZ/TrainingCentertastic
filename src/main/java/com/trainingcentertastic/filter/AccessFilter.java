@@ -3,7 +3,9 @@ package com.trainingcentertastic.filter;
 import com.trainingcentertastic.entity.Role;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
@@ -46,11 +48,14 @@ public class AccessFilter implements Filter {
         ACCESS_COMMANDS.put("newCoursePage", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("newCourse", Arrays.asList(Role.ADMIN));
         ACCESS_COMMANDS.put("createTask", Arrays.asList(Role.TEACHER));
+        ACCESS_COMMANDS.put("createTeacher", Arrays.asList(Role.ADMIN));
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
         HttpSession session = request.getSession();
 
         String command = request.getParameter("command");
@@ -63,6 +68,11 @@ public class AccessFilter implements Filter {
         if (currentRole == null) {
             authentication(servletRequest, servletResponse, filterChain, command);
         } else {
+            if (session.getAttribute("username") == null) {
+                RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("index.jsp");
+                dispatcher.forward(servletRequest, servletResponse);
+            }
+
             List<Role> roles = ACCESS_COMMANDS.get(command);
             if (roles.contains(currentRole)) {
                 filterChain.doFilter(servletRequest, servletResponse);
