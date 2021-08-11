@@ -18,6 +18,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     private static final String FIND_USER_BY_USERNAME = "SELECT * FROM user WHERE username = ?";
     private static final String FIND_COURSE_BY_COURSE_NAME = "SELECT * FROM user WHERE username IN (SELECT username FROM course_users WHERE course_name = ?) AND role = 'STUDENT'";
     private static final String DELETE_FROM_USER_WHERE_USERNAME = "DELETE FROM user WHERE username = ?";
+    private static final String GET_TEACHER = "SELECT * FROM user WHERE username = ? AND role = 'Teacher'";
 
     UserDao(ProxyConnection connection) {
         super(connection);
@@ -65,5 +66,9 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
 
     public void deleteUserByUsername(String username) throws DaoException {
         executeUpdate(DELETE_FROM_USER_WHERE_USERNAME, username);
+    }
+
+    public Optional<User> getTeacherByUsername(String username) throws DaoException {
+        return executeForSingleResult(GET_TEACHER, new UserMapper(), username);
     }
 }

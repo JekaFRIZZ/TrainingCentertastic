@@ -98,4 +98,14 @@ public class UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public Optional<User> getTeacherByUsername(String username) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            return userDao.getTeacherByUsername(username);
+        } catch (Exception e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

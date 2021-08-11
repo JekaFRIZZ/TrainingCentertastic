@@ -21,10 +21,19 @@
         <textarea id="newCourseRequirement" name="newCourseRequirement"
                   placeholder="<fmt:message key="placeholder.enter-course-requirement"/>" rows="5" cols="50"
                   required></textarea>
+        <label for="teachers"><fmt:message key="lable.assign-teacher"/></label>
+        <select name="teachers" id="teachers">
+            <c:forEach var="teacher" items="${teachers}">
+                <option value="${teacher.username}">${teacher.username}</option>
+            </c:forEach>
+        </select>
         <button type="submit"><fmt:message key="button.create"/></button>
     </form>
     <c:if test="${requestScope.notUniqueCourseName != null}">
         <c:out value="${requestScope.notUniqueCourseName}"/>
+    </c:if>
+    <c:if test="${requestScope.courseNotCreated != null}">
+        <c:out value="${requestScope.courseNotCreated}"/>
     </c:if>
     <c:if test="${requestScope.successCreateCourse != null}">
         <c:out value="${requestScope.successCreateCourse}"/>

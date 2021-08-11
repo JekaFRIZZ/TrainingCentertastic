@@ -87,7 +87,7 @@ public class CommandFactory {
             case NEW_COURSE_PAGE:
                 return new NewCoursePageCommand(new UserService(new DaoHelperFactory()));
             case NEW_COURSE:
-                return new NewCourseCommand(new CourseService(new DaoHelperFactory()));
+                return new NewCourseCommand(new CourseService(new DaoHelperFactory()), new UserService(new DaoHelperFactory()));
             case CREATE_TASK:
                 return new CreateTaskCommand(new TaskService(new DaoHelperFactory()), new HomeworkService(new DaoHelperFactory()));
             default:
