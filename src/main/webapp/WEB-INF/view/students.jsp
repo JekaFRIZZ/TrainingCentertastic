@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="message"/>
@@ -15,49 +15,56 @@
     <link rel="stylesheet" href="static/general-style.css">
 </head>
 <body>
-    <jsp:include page="fragments/header.jsp"/>
-    <main>
-        <c:if test="${requestScope.students != null}">
+<jsp:include page="fragments/header.jsp"/>
+<main>
+    <c:if test="${requestScope.students != null}">
+        <table class="table-all">
+            <tr>
+                <th><fmt:message key="th.username"/></th>
+            </tr>
+
+            <c:forEach var="student" items="${students}">
+                <tr>
+                    <td>${student.username}</td>
+                </tr>
+            </c:forEach>
+        </table>
+        <jsp:include page="fragments/pagination.jsp"/>
+    </c:if>
+
+    <nav class="search">
+        <form action="${pageContext.request.contextPath}/controller" method="post">
+            <input type="hidden" name="command" value="findStudent"/>
+
+            <label for="nameStudent"><b>${findStudent}</b></label>
+            <input type="text" placeholder="${enterUsername}" name="nameStudent" required/><br/>
+
+            <button type="submit">${find}</button>
+        </form>
+        <c:if test="${notExist != null}">
+            <br/>${notExist}
+        </c:if>
+        <c:if test="${name != null}">
             <table class="table-all">
                 <tr>
                     <th><fmt:message key="th.username"/></th>
                 </tr>
-
-                <c:forEach var="student" items="${students}">
+                <tr>
+                    <td>${name}</td>
+                </tr>
+                <tr>
+                    <th><fmt:message key="th.coursesStudied"/></th>
+                </tr>
+                <c:forEach var="course" items="${requestScope.courses}">
                     <tr>
-                        <td>${student.username}</td>
+                        <td>
+                            <c:out value="${course.name}"/>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
-            <jsp:include page="fragments/pagination.jsp"/>
         </c:if>
-
-        <nav class="search">
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-                <input type="hidden" name="command" value="findStudent"/>
-
-                <label for="nameStudent"><b>${findStudent}</b></label>
-                <input type="text" placeholder="${enterUsername}" name="nameStudent" required/><br/>
-
-                <button type="submit">${find}</button>
-                <c:if test="${notExist != null}">
-                    <br/>${notExist}
-                </c:if>
-
-            </form>
-            <c:if test="${review != null}">
-                <table class="table-one">
-                    <tr>
-                        <th><fmt:message key="th.username"/></th>
-                        <th><fmt:message key="th.review"/></th>
-                    </tr>
-                    <tr>
-                        <td>${username}</td>
-                        <td>${review}</td>
-                    </tr>
-                </table>
-            </c:if>
-        </nav>
-    </main>
+    </nav>
+</main>
 </body>
 </html>

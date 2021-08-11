@@ -15,6 +15,7 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
     private static final String GET_COURSE_BY_USERNAME_LIMIT = "SELECT * FROM course WHERE name IN (SELECT course_name FROM course_users WHERE username = ?) LIMIT ?, ?";
     private static final String TABLE_NAME = "course";
     private static final String CREATE = "INSERT INTO course (name, requirement, username) VALUES (?, ?, ?)";
+    private static final String FIND_TAUGHT_COURSES = "SELECT * FROM course WHERE username = ?";
     private final String GET_LIMIT = "SELECT * FROM course LIMIT ?, ?";
     private final String FIND_COURSE_BY_NAME = "SELECT * FROM course WHERE name = ?";
 
@@ -58,5 +59,9 @@ public class CourseDao extends AbstractDao<Course> implements Dao<Course> {
 
     public void createCourse(String courseName, String courseRequirement, String username) throws DaoException {
         create(new Course(courseName, courseRequirement, username));
+    }
+
+    public List<Course> getTaughtTeacherCoursesByUsername(String username) throws DaoException {
+        return executeQuery(FIND_TAUGHT_COURSES, new CourseMapper(), username);
     }
 }

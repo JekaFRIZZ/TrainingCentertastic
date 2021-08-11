@@ -87,4 +87,14 @@ public class CourseService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public List<Course> getTaughtTeacherCoursesByUsername(String username) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
+            return courseDao.getTaughtTeacherCoursesByUsername(username);
+        } catch (Exception e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

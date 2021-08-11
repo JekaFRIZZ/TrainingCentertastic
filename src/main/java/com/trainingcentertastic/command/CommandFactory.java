@@ -53,7 +53,7 @@ public class CommandFactory {
             case STUDENTS:
                 return new StudentsCommand(new UserService(new DaoHelperFactory()));
             case FIND_STUDENT:
-                return new FindStudentCommand(new UserService(new DaoHelperFactory()));
+                return new FindStudentCommand(new UserService(new DaoHelperFactory()), new CourseService(new DaoHelperFactory()));
             case COURSE:
                 return new CourseCommand(new CourseService(new DaoHelperFactory()), new UserService(new DaoHelperFactory()), new RequirementParser());
             case MY_PROFILE_STUDENT:
@@ -77,7 +77,7 @@ public class CommandFactory {
             case TEACHERS:
                 return new TeachersCommand(new UserService(new DaoHelperFactory()));
             case FIND_TEACHER:
-                return new FindTeacherCommand(new UserService(new DaoHelperFactory()));
+                return new FindTeacherCommand(new UserService(new DaoHelperFactory()), new CourseService(new DaoHelperFactory()));
             case DELETE_TEACHER:
                 return new DeleteTeacherCommand(new UserService(new DaoHelperFactory()));
             case REGISTRATION_PAGE:
