@@ -38,17 +38,18 @@
         <input type="password" placeholder="Подтвердите пароль" name="secondPassword" id="secondPassword"
                required/><br/>
 
-        <c:if test="${requestScope.errorMessage != null}">
-            <h5 class="incorrect-input">
-                <br/><br/><c:out value="${errorMessage}"/>
-            </h5>
-        </c:if>
-
         <button type="submit"><fmt:message key="button.registration"/></button>
     </nav>
     <nav>
         <c:if test="${requestScope.invalidName != null}">
             <c:out value="${requestScope.invalidName}"/>
+        </c:if>
+    </nav>
+    <nav>
+        <c:if test="${requestScope.errorMessage != null}">
+            <h5 class="incorrect-input">
+                <br/><br/><c:out value="${errorMessage}"/>
+            </h5>
         </c:if>
     </nav>
     <nav>

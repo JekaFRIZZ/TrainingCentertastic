@@ -36,7 +36,7 @@ public class RegistrationCommand implements Command {
                 userService.addStudent(username, firstPassword);
             } catch (ServiceException e) {
                 request.setAttribute("errorMessage", "username is already taken");
-                return CommandResult.forward("WEB-INF/view/registration.jsp"); //try refactor
+                return CommandResult.forward("WEB-INF/view/registration.jsp");
             }
 
             return CommandResult.forward("index.jsp");
