@@ -3,11 +3,13 @@ package com.trainingcentertastic.command;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.HomeworkService;
 import com.trainingcentertastic.service.TaskService;
+import com.trainingcentertastic.validator.NameValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CreateTaskCommand implements Command {
+    private static final String PAGE = "WEB-INF/view/subjectTaught.jsp";
     private final TaskService taskService;
     private final HomeworkService homeworkService;
 
@@ -26,8 +28,13 @@ public class CreateTaskCommand implements Command {
             return CommandResult.forward("WEB-INF/view/subjectTaught.jsp");
         }
 
+        if(!NameValidator.checkName(taskName)) {
+            request.setAttribute("invalidName", "Invalid name");
+            return CommandResult.forward(PAGE);
+        }
+
         taskService.createTask(taskName, courseName, assignment);
         request.setAttribute("nameCourse", courseName);
-        return CommandResult.forward("WEB-INF/view/subjectTaught.jsp");
+        return CommandResult.forward(PAGE);
     }
 }

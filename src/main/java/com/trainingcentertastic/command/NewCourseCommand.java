@@ -4,6 +4,7 @@ import com.trainingcentertastic.entity.User;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.CourseService;
 import com.trainingcentertastic.service.UserService;
+import com.trainingcentertastic.validator.NameValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,9 +28,16 @@ public class NewCourseCommand implements Command {
         if (courseName == null || courseRequirement == null || username == null) {
             return CommandResult.forward(PAGE);
         }
+
+        if(!NameValidator.checkName(courseName)) {
+            request.setAttribute("invalidName", "Invalid name");
+            return CommandResult.forward(PAGE);
+        }
+
         Optional<User> optionalUser = userService.getTeacherByUsername(username);
         if (!optionalUser.isEmpty()) {
             try {
+                courseService.addTeacher(courseName, username);
                 courseService.createCourse(courseName, courseRequirement, username);
                 request.setAttribute("successCreateCourse", "Course created!");
             } catch (ServiceException e) {

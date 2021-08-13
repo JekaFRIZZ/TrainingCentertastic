@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="static/students-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -32,14 +37,16 @@
     </c:if>
 
     <nav class="search">
-        <form action="${pageContext.request.contextPath}/controller" method="post">
+        <form action="${pageContext.request.contextPath}/controller?command=findTeacher" method="post">
             <input type="hidden" name="command" value="findTeacher"/>
 
-            <label for="nameTeacher"><b>${findTeacher}</b></label>
-            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" name="nameTeacher"
-                   required/><br/>
+            <div class="findTeacher">
+                <label for="nameTeacher"><b>${findTeacher}</b></label>
+                <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" name="nameTeacher"
+                       required/><br/>
+                <button type="submit">${find}</button>
+            </div>
 
-            <button type="submit">${find}</button>
             <c:if test="${notExist != null}">
                 <br/><c:out value="${notExist}"/>
             </c:if>
@@ -65,32 +72,39 @@
             </table>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/controller" method="post">
+        <form action="${pageContext.request.contextPath}/controller?command=deleteTeacher" method="post">
             <input type="hidden" name="command" value="deleteTeacher"/>
 
-            <label for="nameTeacher"><b><fmt:message key="lable.deleteTeacher"/></b></label>
-            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="nameTeacher"
-                   name="nameTeacher" required/><br/>
+            <div class="deleteTeacher">
+                <label for="nameTeacher"><b><fmt:message key="lable.deleteTeacher"/></b></label>
+                <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="nameTeacher"
+                       name="nameTeacher" required/><br/>
 
-            <button type="submit"><fmt:message key="button.delete"/></button>
+                <button type="submit"><fmt:message key="button.delete"/></button>
+            </div>
             <c:if test="${deleteMessage != null}">
                 <c:out value="${deleteMessage}"/>
             </c:if>
         </form>
 
-        <form action="${pageContext.request.contextPath}/controller" method="post">
+        <form action="${pageContext.request.contextPath}/controller?command=createTeacher" method="post">
             <input type="hidden" name="command" value="createTeacher"/>
+            <div style="border: 1px solid black; border-radius: 5px; margin-top: 15px; padding: 10px;" class="teachers">
+                <label><b><fmt:message key="lable.createdTeacher"/></b></label></br>
+                <label for="createNameTeacher"><b><fmt:message key="lable.username"/></b></label>
+                <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="createNameTeacher"
+                       name="nameTeacher" required/><br/>
 
-            <label><b><fmt:message key="lable.createdTeacher"/></b></label></br>
-            <label for="createNameTeacher"><b><fmt:message key="lable.username"/></b></label>
-            <input type="text" placeholder="<fmt:message key="placeholder.enterUsername"/>" id="createNameTeacher"
-                   name="nameTeacher" required/><br/>
+                <label for="createPasswordTeacher"><b><fmt:message key="lable.password"/></b></label>
+                <input type="password" placeholder="<fmt:message key="placeholder.enter-password"/>"
+                       id="createPasswordTeacher"
+                       name="passwordTeacher" required/><br/>
 
-            <label for="createPasswordTeacher"><b><fmt:message key="lable.password"/></b></label>
-            <input type="text" placeholder="<fmt:message key="placeholder.enter-password"/>" id="createPasswordTeacher"
-                   name="passwordTeacher" required/><br/>
-
-            <button type="submit"><fmt:message key="button.create"/></button>
+                <button type="submit" style="margin-top: 1rem;"><fmt:message key="button.create"/></button>
+            </div>
+            <c:if test="${requestScope.invalidName != null}">
+                <c:out value="${requestScope.invalidName}"/>
+            </c:if>
             <c:if test="${requestScope.successCreateTeacher != null}">
                 <c:out value="${requestScope.successCreateTeacher}"/>
             </c:if>

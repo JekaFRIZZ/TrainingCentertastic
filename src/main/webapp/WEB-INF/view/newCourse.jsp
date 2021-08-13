@@ -9,26 +9,38 @@
     <link rel="stylesheet" href="static/style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <main>
-    <form action="${pageContext.request.contextPath}/controller" method="post">
+    <form action="${pageContext.request.contextPath}/controller?command=newCourse" method="post">
         <input type="hidden" name="command" value="newCourse"/>
-        <label for="newCourseName"><fmt:message key="th.name"/></label>
-        <input type="text" placeholder="<fmt:message key="placeholder.enter-course-name"/>" id="newCourseName"
-               name="newCourseName" required/></br>
+        <div style="margin-bottom: 15px;">
+            <label for="newCourseName"><fmt:message key="th.name"/></label>
+            <input type="text" placeholder="<fmt:message key="placeholder.enter-course-name"/>" id="newCourseName"
+                   name="newCourseName" required/></br>
+        </div>
         <textarea id="newCourseRequirement" name="newCourseRequirement"
                   placeholder="<fmt:message key="placeholder.enter-course-requirement"/>" rows="5" cols="50"
                   required></textarea>
-        <label for="teachers"><fmt:message key="lable.assign-teacher"/></label>
-        <select name="teachers" id="teachers">
-            <c:forEach var="teacher" items="${teachers}">
-                <option value="${teacher.username}">${teacher.username}</option>
-            </c:forEach>
-        </select>
+        <div style="margin-bottom: 15px;">
+            <label for="teachers"><fmt:message key="lable.assign-teacher"/></label>
+            <select name="teachers" id="teachers">
+                <c:forEach var="teacher" items="${teachers}">
+                    <option value="${teacher.username}"><c:out value="${teacher.username}"/></option>
+                </c:forEach>
+            </select>
+        </div>
         <button type="submit"><fmt:message key="button.create"/></button>
     </form>
+    <c:if test="${requestScope.invalidName != null}">
+        <c:out value="${requestScope.invalidName}"/>
+    </c:if>
     <c:if test="${requestScope.notUniqueCourseName != null}">
         <c:out value="${requestScope.notUniqueCourseName}"/>
     </c:if>

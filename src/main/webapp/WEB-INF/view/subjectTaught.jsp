@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="static/subjectTaught-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -23,7 +28,7 @@
             <tr>
                 <td>
                     <form action="${pageContext.request.contextPath}/controller?command=taskViewer" method="post">
-                        <input type="hidden" name="username" value="${student.username}">
+                        <input type="hidden" name="studentName" value="${student.username}">
                         <input type="hidden" name="nameCourse" value="${nameCourse}">
                         <lable>${student.username}</lable>
                         <button><fmt:message key="button.go"/></button>
@@ -31,14 +36,22 @@
                 </td>
             </tr>
         </c:forEach>
-        <form action="${pageContext.request.contextPath}/controller?command=createTask" method="post">
-            <input type="hidden" name="nameCourse" value="${nameCourse}">
+
+    </table>
+    <form action="${pageContext.request.contextPath}/controller?command=createTask" method="post" style="display: flex;
+    justify-content: center;">
+        <input type="hidden" name="command" value="createTask">
+        <input type="hidden" name="nameCourse" value="${nameCourse}">
+        <div class="taskName">
             <input type="text" placeholder="<fmt:message key="placeholder.enter-task-name"/>" name="taskName" required>
             <input type="text" placeholder="<fmt:message key="placeholder.enter-task-assignment"/>" name="assignment"
                    required>
             <button><fmt:message key="button.create"/></button>
-        </form>
-    </table>
+        </div>
+    </form>
+    <c:if test="${requestScope.invalidName != null}">
+        <c:out value="${requestScope.invalidName}"/>
+    </c:if>
 </main>
 </body>
 </html>
