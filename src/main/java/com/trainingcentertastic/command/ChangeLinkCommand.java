@@ -26,10 +26,16 @@ public class ChangeLinkCommand implements Command {
         String username = (String) session.getAttribute("username");
         String taskName = request.getParameter("taskName");
         String link = request.getParameter("link");
+        String nameCourse = request.getParameter("nameCourse");
+
+        if(taskName == null || nameCourse == null) {
+            taskName = (String) session.getAttribute("taskName");
+            nameCourse = (String) session.getAttribute("nameCourse");
+        }
 
         if (LinkValidator.isLink(link)) {
             homeworkService.updateLink(taskName, username, link);
-            Homework homework = homeworkService.getHomeworkStudent(taskName, username).get();
+            Homework homework = homeworkService.getHomeworkStudent(taskName, username, nameCourse).get();
             request.setAttribute("link", link);
             request.setAttribute("mark", homework.getMark());
             request.setAttribute("review", homework.getReview());

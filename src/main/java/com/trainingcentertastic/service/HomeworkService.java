@@ -58,10 +58,10 @@ public class HomeworkService {
         }
     }
 
-    public Optional<Homework> getHomeworkStudent(String taskName, String username) throws ServiceException {
+    public Optional<Homework> getHomeworkStudent(String taskName, String username, String nameCourse) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             HomeworkDao homeworkDao = daoHelper.createHomeworkDao();
-            return homeworkDao.getByTaskName(taskName, username);
+            return homeworkDao.getByTaskName(taskName, username, nameCourse);
         } catch (Exception e) {
             LOGGER.debug(this.getClass() + e.getMessage());
             throw new ServiceException(e.getMessage(), e);

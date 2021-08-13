@@ -40,7 +40,7 @@ public class TaskCommand implements Command {
         }
 
         Task task = taskService.getTaskByName(taskName, nameCourse).get();
-        Homework homework = homeworkService.getHomeworkStudent(taskName, username).get();
+        Homework homework = homeworkService.getHomeworkStudent(taskName, username, nameCourse).get();
 
         request.setAttribute("mark", homework.getMark());
         request.setAttribute("link", homework.getLink());

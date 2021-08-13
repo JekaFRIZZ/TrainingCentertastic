@@ -15,7 +15,7 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
     private static final String UPDATE_MARK = "UPDATE homework SET mark = ? WHERE id = ? AND username = ?";
     private static final String UPDATE_REVIEW = "UPDATE homework SET review = ? WHERE id = ? AND username = ?";
     private static final String UPDATE_LINK = "UPDATE homework SET link = ? WHERE task_name = ? AND username = ?";
-    private static final String GET_HOMEWORK_STUDENT = "SELECT * FROM homework WHERE task_name = ? AND username = ?";
+    private static final String GET_HOMEWORK_STUDENT = "SELECT * FROM homework WHERE task_name = ? AND username = ? AND course_name = ?";
     private static final String TABLE_NAME = "homework";
 
     protected HomeworkDao(ProxyConnection connection) {
@@ -48,8 +48,8 @@ public class HomeworkDao extends AbstractDao<Homework> implements Dao<Homework> 
         executeUpdate(UPDATE_LINK, link, taskName, username);
     }
 
-    public Optional<Homework> getByTaskName(String taskName, String username) throws DaoException {
-        return executeForSingleResult(GET_HOMEWORK_STUDENT, new HomeworkMapper(), taskName, username);
+    public Optional<Homework> getByTaskName(String taskName, String username, String nameCourse) throws DaoException {
+        return executeForSingleResult(GET_HOMEWORK_STUDENT, new HomeworkMapper(), taskName, username, nameCourse);
     }
 
     public void createHomework(String taskName, String username, String nameCourse) throws DaoException {
