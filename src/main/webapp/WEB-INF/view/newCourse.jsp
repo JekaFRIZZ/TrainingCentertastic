@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
     <script>
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href );
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
         }
     </script>
 </head>
@@ -39,13 +39,19 @@
         <button type="submit"><fmt:message key="button.create"/></button>
     </form>
     <c:if test="${requestScope.invalidName != null}">
-        <c:out value="${requestScope.invalidName}"/>
+        <h5 class="incorrect-input">
+            <c:out value="${requestScope.invalidName}"/>
+        </h5>
     </c:if>
     <c:if test="${requestScope.notUniqueCourseName != null}">
-        <c:out value="${requestScope.notUniqueCourseName}"/>
+        <h5 class="incorrect-input">
+            <c:out value="${requestScope.notUniqueCourseName}"/>
+        </h5>
     </c:if>
     <c:if test="${requestScope.courseNotCreated != null}">
-        <c:out value="${requestScope.courseNotCreated}"/>
+        <h5 class="incorrect-input">
+            <c:out value="${requestScope.courseNotCreated}"/>
+        </h5>
     </c:if>
     <c:if test="${requestScope.successCreateCourse != null}">
         <c:out value="${requestScope.successCreateCourse}"/>

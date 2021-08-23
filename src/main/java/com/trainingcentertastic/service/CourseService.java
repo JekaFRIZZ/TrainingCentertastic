@@ -97,4 +97,14 @@ public class CourseService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    public void addTeacher(String courseName, String username) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            CourseDao courseDao = daoHelper.createCourseDao();
+            courseDao.addTeacher(courseName, username);
+        } catch (Exception e) {
+            LOGGER.debug(this.getClass() + e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

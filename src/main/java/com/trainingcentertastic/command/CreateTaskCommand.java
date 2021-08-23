@@ -25,16 +25,15 @@ public class CreateTaskCommand implements Command {
         String assignment = request.getParameter("assignment");
 
         if(courseName == null || taskName == null || assignment == null) {
-            return CommandResult.forward("WEB-INF/view/subjectTaught.jsp");
-        }
-
-        if(!NameValidator.checkName(taskName)) {
-            request.setAttribute("invalidName", "Invalid name");
             return CommandResult.forward(PAGE);
         }
 
-        taskService.createTask(taskName, courseName, assignment);
-        request.setAttribute("nameCourse", courseName);
+        try {
+            taskService.createTask(taskName, courseName, assignment);
+            request.setAttribute("nameCourse", courseName);
+        } catch (ServiceException e) {
+            request.setAttribute("notUniqueName", "The name must be unique");
+        }
         return CommandResult.forward(PAGE);
     }
 }

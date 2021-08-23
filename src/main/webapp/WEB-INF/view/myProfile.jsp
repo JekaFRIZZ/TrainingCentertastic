@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="static/courses-style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -20,13 +25,13 @@
             <input type="hidden" name="command" value="myProfileStudent"/>
 
             <c:forEach var="course" items="${courses}">
-                <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
+                <form class="form" action="${pageContext.request.contextPath}/controller?command=studyCourse" method="post">
                     <nav class="block">
                         <c:set var="nameCourse" value="${course.name}"/>
                         <input type="hidden" name="nameCourse" value="${nameCourse}"/>
                         <input type="hidden" name="command" value="studyCourse"/>
 
-                        <p class="title">${course.name}</p>
+                        <p class="title"><c:out value="${course.name}"/></p>
                         <button class="button" type="submit">${go}</button>
                     </nav>
                 </form>
@@ -34,13 +39,13 @@
         </c:if>
         <c:if test="${sessionScope.role == 'TEACHER'}">
             <c:forEach var="course" items="${courses}">
-                <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
+                <form class="form" action="${pageContext.request.contextPath}/controller?command=subjectTaught" method="post">
                     <nav class="block">
                         <input type="hidden" name="command" value="subjectTaught">
                         <c:set var="nameCourse" value="${course.name}"/>
                         <input type="hidden" name="nameCourse" value="${nameCourse}"/>
 
-                        <p class="title">${course.name}</p>
+                        <p class="title"><c:out value="${course.name}"/></p>
                         <button class="button" type="submit">${go}</button>
                     </nav>
                 </form>

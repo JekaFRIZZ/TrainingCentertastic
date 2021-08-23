@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
     <script>
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href );
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
         }
     </script>
 </head>
@@ -49,9 +49,13 @@
             <button><fmt:message key="button.create"/></button>
         </div>
     </form>
-    <c:if test="${requestScope.invalidName != null}">
-        <c:out value="${requestScope.invalidName}"/>
-    </c:if>
+    <nav>
+        <c:if test="${requestScope.notUniqueName != null}">
+            <h5 class="incorrect-input">
+                <c:out value="${requestScope.notUniqueName}"/>
+            </h5>
+        </c:if>
+    </nav>
 </main>
 </body>
 </html>

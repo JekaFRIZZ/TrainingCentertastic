@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="static/students-style.css"/>
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -25,7 +30,7 @@
 
             <c:forEach var="student" items="${students}">
                 <tr>
-                    <td>${student.username}</td>
+                    <td><c:out value="${student.username}"/></td>
                 </tr>
             </c:forEach>
         </table>
@@ -33,13 +38,15 @@
     </c:if>
 
     <nav class="search">
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="command" value="findStudent"/>
+        <form action="${pageContext.request.contextPath}/controller?command=findStudent" method="post">
+            <div class="nameStudent">
+                <input type="hidden" name="command" value="findStudent"/>
 
-            <label for="nameStudent"><b>${findStudent}</b></label>
-            <input type="text" placeholder="${enterUsername}" name="nameStudent" required/><br/>
+                <label for="nameStudent"><b>${findStudent}</b></label>
+                <input type="text" placeholder="${enterUsername}" name="nameStudent" required/><br/>
 
-            <button type="submit">${find}</button>
+                <button type="submit">${find}</button>
+            </div>
         </form>
         <c:if test="${notExist != null}">
             <br/>${notExist}

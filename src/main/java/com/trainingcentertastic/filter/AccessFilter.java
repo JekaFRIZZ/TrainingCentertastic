@@ -3,12 +3,14 @@ package com.trainingcentertastic.filter;
 import com.trainingcentertastic.entity.Role;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides access to specific commands depending on the role
@@ -54,11 +56,15 @@ public class AccessFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession();
 
         String command = request.getParameter("command");
+
+        if(command == null) {
+            RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("index.jsp");
+            dispatcher.forward(servletRequest, servletResponse);
+        }
 
         if (command.equals("changeLanguage")) {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -67,11 +73,11 @@ public class AccessFilter implements Filter {
         Role currentRole = (Role) session.getAttribute("role");
         if (currentRole == null) {
             authentication(servletRequest, servletResponse, filterChain, command);
-        } else {
             if (session.getAttribute("username") == null) {
                 RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("index.jsp");
                 dispatcher.forward(servletRequest, servletResponse);
             }
+        } else {
 
             List<Role> roles = ACCESS_COMMANDS.get(command);
             if (roles.contains(currentRole)) {
@@ -89,7 +95,6 @@ public class AccessFilter implements Filter {
     }
 
     public void authentication(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain, String command) throws ServletException, IOException {
-        //Move to a separate method for verification command
         if (command.equals("registrationPage")) {
             RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("WEB-INF/view/registration.jsp");
             dispatcher.forward(servletRequest, servletResponse);

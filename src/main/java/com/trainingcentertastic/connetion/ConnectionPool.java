@@ -5,14 +5,12 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 public class ConnectionPool {
     private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class);
@@ -22,13 +20,13 @@ public class ConnectionPool {
     private final Semaphore connectionSemaphore = new Semaphore(POOL_SIZE);
     private final Queue<ProxyConnection> availableConnections;
     private final Queue<ProxyConnection> connectionsInUse;
-    private final ConnectionPoolFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
     private final static AtomicReference<ConnectionPool> INSTANCE = new AtomicReference<>();
     private final static Lock LOCK = new ReentrantLock();
 
     private ConnectionPool() throws DaoException {
-        connectionFactory = new ConnectionPoolFactory();
+        connectionFactory = new ConnectionFactory();
         connectionsInUse = new ArrayDeque<>();
         availableConnections = new ArrayDeque<>();
         createConnections();
@@ -53,7 +51,7 @@ public class ConnectionPool {
                     INSTANCE.getAndSet(connectionPool);
                 }
             } catch (DaoException e) {
-                throw new ConnectionPoolException(e.getMessage(), e);
+                throw new ConnectionException(e.getMessage(), e);
             } finally {
                 LOCK.unlock();
             }
@@ -96,7 +94,7 @@ public class ConnectionPool {
             try {
                 connection.close();
             } catch (SQLException e) {
-                throw new ConnectionPoolException(e.getMessage(), e);
+                throw new ConnectionException(e.getMessage(), e);
             }
         }
     }

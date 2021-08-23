@@ -9,6 +9,7 @@ import com.trainingcentertastic.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,11 @@ public class CourseCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        HttpSession session = request.getSession();
         String name = request.getParameter("nameCourse");
+        if(name == null) {
+            name = (String) session.getAttribute("nameCourse");
+        }
 
         Optional<Course> courseOptional = courseService.getCourseByName(name);
 
@@ -36,7 +41,7 @@ public class CourseCommand implements Command {
         List<String> requirements = requirementParser.parseRequirement(oneStringRequirements);
         List<User> students = userService.getStudentsByCourseName(name);
 
-        request.setAttribute("nameCourse", course.getName());
+        session.setAttribute("nameCourse", course.getName());
         request.setAttribute("requirements", requirements);
         request.setAttribute("students", students);
 

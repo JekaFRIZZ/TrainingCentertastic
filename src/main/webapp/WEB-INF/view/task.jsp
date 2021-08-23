@@ -8,23 +8,31 @@
     <title>TrainingCentertastic</title>
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <main>
-    Задание : ${sessionScope.assignment}
+    Задание : <c:out value="${sessionScope.assignment}"/>
     <form action="${pageContext.request.contextPath}/controller?command=changeLink" method="post">
-        <input type="hidden" name="taskName" value="${taskName}">
+        <input type="hidden" name="command" value="changeLink">
+        <input type="hidden" name="taskName" value="<c:out value="${taskName}"/>">
         <input type="text" name="link" required>
         <button type="submit"><fmt:message key="button.send"/></button>
     </form>
     <c:if test="${requestScope.incorrectLink != null}">
-        ${requestScope.incorrectLink}
+        <h5 class="incorrect-input">
+                ${requestScope.incorrectLink}
+        </h5>
     </c:if>
     <nav id="link">
         <p><fmt:message key="td.link"/></p>
         <c:if test="${requestScope.link != null}">
-            <c:out value="${requestScope.link}" escapeXml="true"/>
+            <c:out value="${requestScope.link}"/>
         </c:if>
         <c:if test="${requestScope.link == null}">
             <p><fmt:message key="p.noLink"/></p>
@@ -36,13 +44,13 @@
             <p><fmt:message key="p.noMark"/></p>
         </c:if>
         <c:if test="${requestScope.mark >=1 && requestScope.mark <=10}">
-            ${requestScope.mark}
+            <c:out value="${requestScope.mark}"/>
         </c:if>
     </nav>
     <nav id="review">
         <p><fmt:message key="th.review"/></p>
         <c:if test="${requestScope.review != null}">
-            <c:out value="${requestScope.review}" escapeXml="true"/>
+            <c:out value="${requestScope.review}"/>
         </c:if>
         <c:if test="${requestScope.review == null}">
             <p><fmt:message key="p.noReview"/></p>

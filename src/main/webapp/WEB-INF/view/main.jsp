@@ -13,11 +13,16 @@
     <link rel="stylesheet" href="static/style.css">
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
     <jsp:include page="fragments/header.jsp"/>
     <main>
-        <h1>${welcome} ${sessionScope.username}</h1>
+        <h1>${welcome} <c:out value="${sessionScope.username}"/></h1>
         <h3><ct:time/></h3>
         <img src="<c:url value="/image/mainPicture.jpg"/>" width="100%" height="100%"/>
     </main>
