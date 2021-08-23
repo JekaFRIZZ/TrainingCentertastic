@@ -1,6 +1,5 @@
 package com.trainingcentertastic.validator;
 
-import com.trainingcentertastic.command.CommandType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,6 +17,7 @@ public class NameValidatorTest {
         boolean actual = NameValidator.checkName(INCORRECT_NAME);
         Assert.assertFalse(actual);
     }
+
     @Test
     public void testCheckNameShouldReturnTrueWhenNameWithSpaceApplied() {
         boolean actual = NameValidator.checkName("First task");

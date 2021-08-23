@@ -1,5 +1,6 @@
 package com.trainingcentertastic.filter;
 
+import com.trainingcentertastic.command.Commands;
 import com.trainingcentertastic.entity.Role;
 
 import javax.servlet.*;
@@ -26,31 +27,31 @@ public class AccessFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        ACCESS_COMMANDS.put(LOGIN, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("mainPage", Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("courses", Arrays.asList(Role.ADMIN, Role.STUDENT));
-        ACCESS_COMMANDS.put("myProfile", Arrays.asList(Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("logout", Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("changeLanguage", Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("students", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("findStudent", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("myProfileStudent", Arrays.asList(Role.TEACHER, Role.STUDENT));
-        ACCESS_COMMANDS.put("newRequirement", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("submitStudent", Arrays.asList(Role.STUDENT));
-        ACCESS_COMMANDS.put("studyCourse", Arrays.asList(Role.STUDENT));
-        ACCESS_COMMANDS.put("task", Arrays.asList(Role.STUDENT));
-        ACCESS_COMMANDS.put("myCoursesTeacher", Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
-        ACCESS_COMMANDS.put("subjectTaught", Arrays.asList(Role.TEACHER));
-        ACCESS_COMMANDS.put("taskViewer", Arrays.asList(Role.TEACHER));
-        ACCESS_COMMANDS.put("changeLink", Arrays.asList(Role.STUDENT));
-        ACCESS_COMMANDS.put("teachers", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("course", Arrays.asList(Role.ADMIN, Role.STUDENT));
-        ACCESS_COMMANDS.put("findTeacher", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("deleteTeacher", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("newCoursePage", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("newCourse", Arrays.asList(Role.ADMIN));
-        ACCESS_COMMANDS.put("createTask", Arrays.asList(Role.TEACHER));
-        ACCESS_COMMANDS.put("createTeacher", Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.LOGIN, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.MAIN_PAGE, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.COURSES, Arrays.asList(Role.ADMIN, Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.MY_PROFILE, Arrays.asList(Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.LOGOUT, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.CHANGE_LANGUAGE, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.STUDENTS, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.FIND_STUDENT, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.MY_PROFILE_STUDENT, Arrays.asList(Role.TEACHER, Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.NEW_REQUIREMENT, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.SUBMIT_STUDENT, Arrays.asList(Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.STUDY_COURSE, Arrays.asList(Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.TASK, Arrays.asList(Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.MY_COURSES_TEACHER, Arrays.asList(Role.ADMIN, Role.STUDENT, Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.SUBJECT_TAUGHT, Arrays.asList(Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.TASK_VIEWER, Arrays.asList(Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.CHANGE_LINK, Arrays.asList(Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.TEACHERS, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.COURSE, Arrays.asList(Role.ADMIN, Role.STUDENT));
+        ACCESS_COMMANDS.put(Commands.FIND_TEACHER, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.DELETE_TEACHER, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.NEW_COURSE_PAGE, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.NEW_COURSE, Arrays.asList(Role.ADMIN));
+        ACCESS_COMMANDS.put(Commands.CREATE_TASK, Arrays.asList(Role.TEACHER));
+        ACCESS_COMMANDS.put(Commands.CREATE_TEACHER, Arrays.asList(Role.ADMIN));
     }
 
     @Override
