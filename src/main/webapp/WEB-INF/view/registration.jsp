@@ -42,7 +42,9 @@
     </nav>
     <nav>
         <c:if test="${requestScope.invalidName != null}">
-            <c:out value="${requestScope.invalidName}"/>
+            <h5 class="incorrect-input">
+                <c:out value="${requestScope.invalidName}"/>
+            </h5>
         </c:if>
     </nav>
     <nav>
