@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="static/index-style.css"/>
     <link rel="stylesheet" href="static/language-index-style.css">
     <link rel="stylesheet" href="static/general-style.css">
+    <link rel="stylesheet" href="static/registration.css">
     <script>
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
@@ -58,6 +59,15 @@
         <a href="/controller?command=login"><fmt:message key="a.login"/></a>
     </nav>
 </form>
+<nav class="requirementsPassword">
+    <nav><fmt:message key="nav.passwordRequirements"/> :</nav>
+    <nav><fmt:message key="nav.firstRequirement"/> </nav>
+    <nav><fmt:message key="nav.secondRequirement"/></nav>
+    <nav><fmt:message key="nav.thirdRequirement"/></nav>
+    <nav><fmt:message key="nav.fourthRequirement"/> (@#$%^&+=)</nav>
+    <nav><fmt:message key="nav.fifthRequirement"/></nav>
+    <nav><fmt:message key="nav.sixthRequirement"/></nav>
+</nav>
 <jsp:include page="fragments/language.jsp"/>
 </body>
 </html>
