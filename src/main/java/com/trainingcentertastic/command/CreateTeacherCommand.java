@@ -3,6 +3,7 @@ package com.trainingcentertastic.command;
 import com.trainingcentertastic.exception.ServiceException;
 import com.trainingcentertastic.service.UserService;
 import com.trainingcentertastic.validator.NameValidator;
+import com.trainingcentertastic.validator.PasswordValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,12 @@ public class CreateTeacherCommand implements Command {
         }
 
         if(!NameValidator.checkName(username)) {
-            request.setAttribute("invalidName", "Invalid name");
+            request.setAttribute("invalidData", "Invalid name");
+            return CommandResult.forward(PAGE);
+        }
+
+        if(!PasswordValidator.checkPassword(password)) {
+            request.setAttribute("invalidData", "Invalid password");
             return CommandResult.forward(PAGE);
         }
 

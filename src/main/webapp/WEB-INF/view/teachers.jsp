@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="static/language-all-style.css">
     <link rel="stylesheet" href="static/general-style.css">
     <script>
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href );
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
         }
     </script>
 </head>
@@ -102,14 +102,18 @@
 
                 <button type="submit" style="margin-top: 1rem;"><fmt:message key="button.create"/></button>
             </div>
-            <c:if test="${requestScope.invalidName != null}">
-                <c:out value="${requestScope.invalidName}"/>
+            <c:if test="${requestScope.invalidData != null}">
+                <h5 class="incorrect-input">
+                    <c:out value="${requestScope.invalidData}"/>
+                </h5>
             </c:if>
             <c:if test="${requestScope.successCreateTeacher != null}">
                 <c:out value="${requestScope.successCreateTeacher}"/>
             </c:if>
             <c:if test="${requestScope.unSuccessCreateTeacher != null}">
-                <c:out value="${requestScope.unSuccessCreateTeacher}"/>
+                <h5 class="incorrect-input">
+                    <c:out value="${requestScope.unSuccessCreateTeacher}"/>
+                </h5>
             </c:if>
         </form>
     </nav>
