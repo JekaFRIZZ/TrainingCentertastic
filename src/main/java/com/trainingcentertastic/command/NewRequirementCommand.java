@@ -26,8 +26,18 @@ public class NewRequirementCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        String nameCourse = request.getParameter("nameCourse");
+        String nameCourse = (String) request.getSession().getAttribute("nameCourse");
         String requirement = request.getParameter("newRequirement");
+
+        if(requirement == null) {
+            Course course = courseService.getCourseByName(nameCourse).get();
+            requirement = course.getRequirement();
+            List<String> requirements = requirementParser.parseRequirement(requirement);
+            List<User> students = userService.getStudentsByCourseName(nameCourse);
+            request.setAttribute("students", students);
+            request.setAttribute("requirements",requirements);
+            return CommandResult.forward(PAGE);
+        }
 
         List<User> students = userService.getStudentsByCourseName(nameCourse);
         Course course = courseService.getCourseByName(nameCourse).get();
@@ -35,9 +45,9 @@ public class NewRequirementCommand implements Command {
         course = courseService.getCourseByName(nameCourse).get();
         List<String> requirements = requirementParser.parseRequirement(requirement);
 
-        request.setAttribute("course", course);
+        request.getSession().setAttribute("course", course);
         request.setAttribute("students", students);
-        request.setAttribute("nameCourse", nameCourse);
+        request.getSession().setAttribute("nameCourse", nameCourse);
         request.setAttribute("requirements",requirements);
         request.setAttribute("successRequirement", "Requirements changed!");
 

@@ -31,6 +31,7 @@ public class CreateTaskCommand implements Command {
         try {
             taskService.createTask(taskName, courseName, assignment);
             request.setAttribute("nameCourse", courseName);
+            request.setAttribute("successCreate", "Task created!");
         } catch (ServiceException e) {
             request.setAttribute("notUniqueName", "The name must be unique");
         }

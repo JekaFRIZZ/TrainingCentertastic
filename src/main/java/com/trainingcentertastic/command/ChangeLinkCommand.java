@@ -36,7 +36,7 @@ public class ChangeLinkCommand implements Command {
         if (LinkValidator.isLink(link)) {
             homeworkService.updateLink(taskName, username, link);
             Homework homework = homeworkService.getHomeworkStudent(taskName, username, nameCourse).get();
-            request.setAttribute("link", link);
+            request.setAttribute("link", homework.getLink());
             request.setAttribute("mark", homework.getMark());
             request.setAttribute("review", homework.getReview());
         } else {

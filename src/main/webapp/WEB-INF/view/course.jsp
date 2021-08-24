@@ -52,7 +52,7 @@
 
             <nav class="edit-nav">
                 <form action="${pageContext.request.contextPath}/controller?command=newRequirement" method="post" class="edit-form">
-                    <input type="hidden" name="nameCourse" value="<c:out value="${nameCourse}"/>">
+                    <input type="hidden" name="nameCourse" value="${nameCourse}"/>
                     <input type="hidden" name="command" value="newRequirement"/>
                     <label for="newRequirement"><fmt:message key="lable.requirement"/> </label>
                     <textarea id="newRequirement" name="newRequirement" rows="5" cols="50"></textarea>

@@ -50,6 +50,9 @@
         </div>
     </form>
     <nav>
+        <c:if test="${requestScope.successCreate != null}">
+            <c:out value="${requestScope.successCreate}"/>
+        </c:if>
         <c:if test="${requestScope.notUniqueName != null}">
             <h5 class="incorrect-input">
                 <c:out value="${requestScope.notUniqueName}"/>

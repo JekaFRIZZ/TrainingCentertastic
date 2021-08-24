@@ -32,7 +32,7 @@
     <nav id="link">
         <p><fmt:message key="td.link"/></p>
         <c:if test="${requestScope.link != null}">
-            <c:out value="${requestScope.link}"/>
+            <a href="<c:out value="${requestScope.link}"/>"><c:out value="${requestScope.link}"/></a>
         </c:if>
         <c:if test="${requestScope.link == null}">
             <p><fmt:message key="p.noLink"/></p>
