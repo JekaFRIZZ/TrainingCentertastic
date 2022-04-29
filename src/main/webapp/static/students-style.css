@@ -1,0 +1,44 @@
+.table-one {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-all {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.search {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.teachers label {
+    margin: 1rem;
+}
+
+.findTeacher,
+.deleteTeacher,
+.nameStudent{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 10px;
+}
